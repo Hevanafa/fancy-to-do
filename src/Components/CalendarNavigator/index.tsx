@@ -7,11 +7,13 @@ import {
 	getYesterdayDate
 } from "../../modules/commonDate";
 
+import { GenericOnClickEvent } from "../../modules/generics";
+
 import "./index.scss";
 
 interface IProps {
 	calendarDate: Date;
-	setDate: (e: React.MouseEvent) => void;
+	setDate: GenericOnClickEvent;
 }
 export default class CalendarNavigator extends React.Component<IProps> {
 	dayDiff = () =>

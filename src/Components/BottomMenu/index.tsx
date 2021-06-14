@@ -1,4 +1,5 @@
 import React from "react";
+import { GenericOnClickEvent } from "../../modules/generics";
 
 import "./index.scss";
 
@@ -11,7 +12,7 @@ export interface IBottomMenuProps {
 }
 
 interface IProps extends IBottomMenuProps {
-	menuHandler: (e: React.MouseEvent) => void;
+	menuHandler: GenericOnClickEvent;
 }
 export default class BottomMenu extends React.Component<IProps> {
 	readonly imgPath = "/assets/img/bottom-menu"

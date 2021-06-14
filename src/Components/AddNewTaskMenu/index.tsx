@@ -3,26 +3,54 @@ import { GenericOnClickEvent } from "../../modules/generics";
 
 import "./index.scss";
 
+interface IState {
+	hasVisibilityClass: boolean;
+}
+
 interface IProps {
 	addNewTaskToday: GenericOnClickEvent;
 	addNewTaskTomorrow: GenericOnClickEvent;
 	hideNewTaskMenu: GenericOnClickEvent;
 }
-export default class AddNewTaskMenu extends React.Component<IProps> {
+export default class AddNewTaskMenu extends React.Component<IProps, IState> {
+	state = {
+		hasVisibilityClass: false
+	}
+
+	componentDidMount() {
+		window.setTimeout(() => {
+			this.setState({
+				hasVisibilityClass: true
+			});
+		}, 100);
+	}
+
+	hide(e: React.MouseEvent) {
+		this.setState({
+			hasVisibilityClass: false
+		}, () => {
+			window.setTimeout(() => {
+				this.props.hideNewTaskMenu(e);
+			}, 300);
+		});
+	}
+
+	getClassList = () =>
+		`add-new-task-menu ${this.state.hasVisibilityClass ? "visible" : ""}`
+
 	render() {
 		const {
 			addNewTaskToday,
-			addNewTaskTomorrow,
-			hideNewTaskMenu
+			addNewTaskTomorrow
 		} = this.props;
 
 		return (
 			<>
 				<div
 					className="invisible-overlay"
-					onClick={hideNewTaskMenu}></div>
+					onClick={this.hide.bind(this)}></div>
 
-				<div className="add-new-task-menu">
+				<div className={this.getClassList()}>
 					<div className="heading">
 						Add New Task
 					</div>
