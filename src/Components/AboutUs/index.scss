@@ -1,0 +1,21 @@
+@import "../../styles/constants.scss";
+
+.about-container {
+	.about-label,
+	.about-text {
+		margin: 5vh 0;
+	}
+	
+	.about-label {
+		font-weight: normal;
+		border-bottom: 1px solid $dark;
+		font-size: 3vh;
+		color: $dark;
+	}
+	
+	.about-text {
+		font-weight: lighter;
+		font-size: 3vh;
+		color: $dark;
+	}
+}
