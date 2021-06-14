@@ -4,11 +4,18 @@ const DBDateFormatter = new Intl.DateTimeFormat("zh-CN", {
 	day: "2-digit"
 });
 
-const NormalDateFormatter = new Intl.DateTimeFormat("en-ID", {
+const NormalDateFormatter = new Intl.DateTimeFormat("en-UK", {
 	year: "numeric",
 	month: "2-digit",
 	day: "2-digit"
 });
+
+const getReadableDate = (date: Date) =>
+	Intl.DateTimeFormat("en-UK", {
+		year: "numeric",
+		month: "short",
+		day: "numeric"
+	}).format(date);
 
 function getYesterdayDate() {
 	const today = new Date();
@@ -47,6 +54,7 @@ const validateDateFormat = (dateStr: string) =>
 export {
 	DBDateFormatter,
 	NormalDateFormatter,
+	getReadableDate,
 
 	getYesterdayDate,
 	getTodayDate,

@@ -10,12 +10,12 @@ import {
 import "./index.scss";
 
 interface IProps {
-	selectedDate: Date;
+	calendarDate: Date;
 	setDate: (e: React.MouseEvent) => void;
 }
 export default class CalendarNavigator extends React.Component<IProps> {
 	dayDiff = () =>
-		Math.ceil((this.props.selectedDate.getTime() - new Date().getTime()) / 86400000);
+		Math.ceil((this.props.calendarDate.getTime() - new Date().getTime()) / 86400000);
 
 	isYesterday = () =>
 		this.dayDiff() === -1;

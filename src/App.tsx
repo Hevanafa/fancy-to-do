@@ -5,7 +5,9 @@ import "./styles/App.scss";
 import AboutUs from "./Components/AboutUs";
 import TaskList from "./Components/TaskList";
 import CalendarNavigator from "./Components/CalendarNavigator";
-import { getTodayDate, NormalDateFormatter, validateDateFormat } from "./modules/commonDate";
+import { DBDateFormatter, getTodayDate, NormalDateFormatter, validateDateFormat } from "./modules/commonDate";
+import EmptyTaskMessage from "./Components/EmptyTaskMessage";
+import AddNewTaskMenu from "./Components/AddNewTaskMenu";
 
 export interface ITaskItem {
 	label: string;
@@ -97,7 +99,7 @@ export default class App extends Component<{}, IState> {
 
 	hideNewTaskMenu() {
 		this.setState({
-			isAddNewTaskVisible: true
+			isAddNewTaskVisible: false
 		});
 	}
 
@@ -218,8 +220,14 @@ export default class App extends Component<{}, IState> {
 
 		console.log("bMH idx", idx);
 
-		if (idx === 2)
+		if (idx === 2) {
+			// Don't reset the other modes when pressing the "add new task" button
+			this.setState({
+				isAddNewTaskVisible: !this.state.isAddNewTaskVisible
+			});
+
 			return;
+		}
 
 		this.setState({
 			isHome: false,
@@ -238,55 +246,77 @@ export default class App extends Component<{}, IState> {
 					this.setState({
 						isHome: true
 					});
-				break;
+					break;
 
 				case 3:
 					this.setState({
 						isCalendar: true
 					});
-				break;
+					break;
 
 				case 4:
 					this.setState({
 						isAboutScreen: true
 					});
-				break;
+					break;
 			}
 		});
 	}
 
 	render() {
 		const {
+			// Screens
 			isHome,
 			isEditMode,
-
+			isAddNewTaskVisible,
 			isAboutScreen,
+
+			// Other states
+			calendarDate,
 			tasks
 		} = this.state;
+
+		const dateStr = DBDateFormatter.format(calendarDate);
+		const todayTaskList = tasks.get(dateStr);
+
+		const isTaskListVisible = isHome || isEditMode;
 
 		return (
 			<div className="app">
 				{
-					isHome || isEditMode
-					? <CalendarNavigator
-						selectedDate={this.state.calendarDate}
-						setDate={this.setCalendarNavDate.bind(this)}
+					isAddNewTaskVisible ? (
+						<AddNewTaskMenu
+							{...this.state}
+							addNewTaskToday={this.addNewTaskToday.bind(this)}
+							addNewTaskTomorrow={this.addNewTaskTomorrow.bind(this)}
+							hideNewTaskMenu={this.hideNewTaskMenu.bind(this)}
 						/>
-					: null
+					) : null
 				}
 
 				{
-					isHome || isEditMode
-					? <TaskList
-						date={this.state.calendarDate}
-						tasks={tasks} />
-					: null
+					isTaskListVisible ? (
+						<>
+							<CalendarNavigator
+								{...this.state}
+								setDate={this.setCalendarNavDate.bind(this)}
+							/>
+
+							<TaskList {...this.state} />
+
+							{
+								!todayTaskList || !todayTaskList.length
+									? <EmptyTaskMessage />
+									: null
+							}
+						</>
+					) : null
 				}
 
 				{
 					isAboutScreen
-					? <AboutUs />
-					: null
+						? <AboutUs />
+						: null
 				}
 
 				<BottomMenu

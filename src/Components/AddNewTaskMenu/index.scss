@@ -1,0 +1,86 @@
+@import "../../styles/constants.scss";
+
+.invisible-overlay {
+	z-index: 1;
+
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	top: 0;
+	left: 0;
+
+	background: $dark;
+	opacity: 10%;
+}
+
+.add-new-task-menu {
+	z-index: 1;
+
+	position: fixed;
+	bottom: 16vh;
+	left: 0;
+	right: 0;
+	margin: auto;
+
+	width: 63vw;
+	background: $dark;
+	padding: 3vh 0;
+
+	box-shadow: 0 8px 16px $dark;
+
+	display: flex;
+	flex-direction: column;
+
+	& > .triangle {
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+		height: 4vh;
+
+		transform: translate(-50%, 100%);
+
+		// Because it's a PNG
+		filter: drop-shadow(0 8px 16px $dark);
+	}
+
+	& > .heading {
+		font-weight: bold;
+		font-size: 4vh;
+		color: white;
+
+		text-align: center;
+	}
+
+	& > .menu-item {
+		display: flex;
+		align-items: center;
+
+		margin: 2vh 3vw;
+
+		background: $darker;
+		color: white;
+
+		& > div:first-child {
+			width: 8px;
+			align-self: stretch;
+
+			&.blue {
+				background: #00aeef;
+			}
+
+			&.yellow {
+				background: #fff200;
+			}
+
+			&.grey {
+				background: #959595;
+			}
+		}
+
+		& > div:not(:first-child) {
+			font-size: 2vh;
+			padding: 1.6vh 3vw;
+			flex-grow: 1;
+		}
+	}
+}

@@ -1,3 +1,5 @@
+@import "../../styles/constants.scss";
+
 .bottom-menu {
 	position: fixed;
 	bottom: 0;
@@ -23,6 +25,8 @@
 			z-index: 0;
 
 			background: #3b3b3b;
+			box-sizing: border-box;
+			border: 1px solid white;
 			box-shadow: 0 -4px 8px white;
 		}
 
@@ -30,7 +34,8 @@
 			background: #0078a3;
 
 			&.active {
-				box-shadow: 0 -4px 8px #00bcff;
+				border: 1px solid $cyan;
+				box-shadow: 0 -4px 8px $cyan;
 			}
 
 			& > img {
