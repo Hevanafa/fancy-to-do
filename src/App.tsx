@@ -18,6 +18,7 @@ import "./styles/App.scss";
 import { applyMixins } from "./modules/generics";
 import { addNewTaskToday, addNewTaskTomorrow, hideNewTaskMenu } from "./modules/AddNewTaskMethods";
 import TaskEditorModal from "./Components/TaskEditorModal";
+import { parseJSONMap, stringifyMap } from "./modules/commonMap";
 
 export interface ITaskItem {
 	label: string;
@@ -63,11 +64,33 @@ class App extends Component<{}, IState> {
 		};
 	}
 
+	componentDidMount() {
+		this.loadTaskData();
+	}
+
 	// AddNewTaskMethods
 	addNewTaskToday = addNewTaskToday;
 	addNewTaskTomorrow = addNewTaskTomorrow;
 	hideNewTaskMenu = hideNewTaskMenu;
 
+
+	// localStorage operations
+	readonly localStorageKey = "task_list";
+	loadTaskData() {
+		const savedTaskList = localStorage.getItem(this.localStorageKey);
+
+		console.log("lTD sTL", savedTaskList);
+
+		if (!savedTaskList) return;
+
+		const tasks = parseJSONMap(savedTaskList);
+		this.setState({ tasks });
+	}
+
+	saveTaskData() {
+		console.log("sTD tasks", this.state.tasks);
+		localStorage.setItem("task_list", stringifyMap(this.state.tasks));
+	}
 	
 	setDefaultCalendarDate() {
 		this.setState({
@@ -109,9 +132,13 @@ class App extends Component<{}, IState> {
 			tasks.set(dateStr, [newTaskItem]);
 		}
 
-		console.log("tasks", tasks);
+		// console.log("tasks", stringifyMap(tasks));
+
+		this.saveTaskData();
 
 		this.setState({ tasks });
+
+		// Todo: save to localStorage
 	}
 
 	
