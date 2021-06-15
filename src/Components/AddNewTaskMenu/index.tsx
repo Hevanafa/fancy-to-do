@@ -1,5 +1,5 @@
 import React from "react";
-import { GenericOnClickEvent } from "../../modules/generics";
+import { GenericOnClickEvent, getImgSrc } from "../../modules/generics";
 
 import "./index.scss";
 
@@ -80,7 +80,7 @@ export default class AddNewTaskMenu extends React.Component<IProps, IState> {
 
 					<img
 						className="triangle"
-						src="/assets/img/new-task-menu/triangle.png"
+						src={getImgSrc("/new-task-menu/triangle.png")}
 						alt="triangle"
 					/>
 				</div>

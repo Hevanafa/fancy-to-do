@@ -1,4 +1,5 @@
 import React from "react";
+import { getImgSrc } from "../../modules/generics";
 
 import "./index.scss";
 
@@ -6,7 +7,9 @@ export default class EmptyTaskMessage extends React.Component {
 	render() {
 		return (
 			<div className="empty-task-msg-container">
-				<img src="/assets/img/home/help.png" alt="help" />
+				<img
+					src={"./assets/img/home/help.png"}
+					alt="help" />
 
 				<div>
 					You don’t have any tasks today.<br />

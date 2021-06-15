@@ -1,5 +1,5 @@
 import React from "react";
-import { GenericOnClickEvent } from "../../modules/generics";
+import { GenericOnClickEvent, getImgSrc } from "../../modules/generics";
 
 import "./index.scss";
 
@@ -15,7 +15,7 @@ interface IProps extends IBottomMenuProps {
 	menuHandler: GenericOnClickEvent;
 }
 export default class BottomMenu extends React.Component<IProps> {
-	readonly imgPath = "/assets/img/bottom-menu"
+	readonly imgPath = "/bottom-menu"
 
 	getClassName = (active: boolean, isPlus = false) =>
 		`${active ? "active" : ""} ${isPlus ? "plus" : ""}`;
@@ -37,35 +37,45 @@ export default class BottomMenu extends React.Component<IProps> {
 					className={this.getClassName(isEditMode)}
 					{...{ idx: 0 }}
 					onClick={menuHandler}>
-					<img src={`${this.imgPath}/pencil.png`} alt="pencil" />
+					<img
+						src={getImgSrc(this.imgPath + "/pencil.png")}
+						alt="pencil" />
 				</button>
 
 				<button 
 					className={this.getClassName(isHome)}
 					{...{ idx: 1 }}
 					onClick={menuHandler}>
-					<img src={`${this.imgPath}/home.png`} alt="home" />
+					<img
+						src={getImgSrc(this.imgPath + "/home.png")}
+						alt="home" />
 				</button>
 				
 				<button
 					className={this.getClassName(isAddNewTaskVisible, true)}
 					{...{ idx: 2 }}
 					onClick={menuHandler}>
-					<img src={`${this.imgPath}/plus.png`} alt="plus" />
+					<img
+						src={getImgSrc(this.imgPath + "/plus.png")}
+						alt="plus" />
 				</button>
 				
 				<button
 					className={this.getClassName(isCalendar)}
 					{...{ idx: 3 }}
 					onClick={menuHandler}>
-					<img src={`${this.imgPath}/calendar.png`} alt="calendar" />
+					<img
+						src={getImgSrc(this.imgPath + "/calendar.png")}
+						alt="calendar" />
 				</button>
 				
 				<button
 					className={this.getClassName(isInfo)}
 					{...{ idx: 4 }}
 					onClick={menuHandler}>
-					<img src={`${this.imgPath}/info.png`} alt="info" />
+					<img
+						src={getImgSrc(this.imgPath + "/info.png")}
+					 	alt="info" />
 				</button>
 			</div>
 		);

@@ -1,13 +1,22 @@
 import React, { Component } from "react";
 import BottomMenu, { IBottomMenuProps } from "./Components/BottomMenu";
 
-import "./styles/App.scss";
 import AboutUs from "./Components/AboutUs";
 import TaskList from "./Components/TaskList";
 import CalendarNavigator from "./Components/CalendarNavigator";
-import { DBDateFormatter, getTodayDate, NormalDateFormatter, validateDateFormat } from "./modules/commonDate";
 import EmptyTaskMessage from "./Components/EmptyTaskMessage";
 import AddNewTaskMenu from "./Components/AddNewTaskMenu";
+
+import {
+	DBDateFormatter,
+	getTodayDate,
+	NormalDateFormatter,
+	validateDateFormat
+} from "./modules/commonDate";
+
+import "./styles/App.scss";
+import { applyMixins } from "./modules/generics";
+import { addNewTaskToday, addNewTaskTomorrow, hideNewTaskMenu } from "./modules/AddNewTaskMethods";
 
 export interface ITaskItem {
 	label: string;
@@ -28,7 +37,7 @@ interface IState extends IBottomMenuProps {
 	// Calendar
 	calendarDate: Date;
 }
-export default class App extends Component<{}, IState> {
+class App extends Component<{}, IState> {
 	constructor(props: any) {
 		super(props);
 
@@ -53,6 +62,12 @@ export default class App extends Component<{}, IState> {
 		};
 	}
 
+	// AddNewTaskMethods
+	addNewTaskToday = addNewTaskToday;
+	addNewTaskTomorrow = addNewTaskTomorrow;
+	hideNewTaskMenu = hideNewTaskMenu;
+
+	
 	setDefaultCalendarDate() {
 		this.setState({
 			calendarDate: getTodayDate()
@@ -90,52 +105,7 @@ export default class App extends Component<{}, IState> {
 		this.setState({ tasks });
 	}
 
-	// Add New Task Menu
-	showNewTaskMenu() {
-		this.setState({
-			isAddNewTaskVisible: true
-		});
-	}
-
-	hideNewTaskMenu() {
-		this.setState({
-			isAddNewTaskVisible: false
-		});
-	}
-
-	addNewTaskToday() {
-		this.setState({
-			isAddNewTaskVisible: false,
-			isTaskEditorVisible: true,
-
-			taskEditorTaskName: "",
-			taskEditorDateStr: NormalDateFormatter.format(new Date())
-		});
-	}
-
-	addNewTaskTomorrow() {
-		const today = new Date();
-		const date = new Date(
-			today.getFullYear(),
-			today.getMonth(),
-			today.getDate() + 1);
-
-		this.setState({
-			isAddNewTaskVisible: false,
-			isTaskEditorVisible: true,
-
-			taskEditorTaskName: "",
-			taskEditorDateStr: NormalDateFormatter.format(date)
-		});
-	}
-
-	pickADate() {
-		this.setState({
-			isCalendar: true,
-			isAddNewTaskVisible: false
-		});
-	}
-
+	
 	// Home Screen
 	checkTaskDOM(e: React.MouseEvent) {
 		const dateKey = e.currentTarget.getAttribute("date") || "",
@@ -327,3 +297,5 @@ export default class App extends Component<{}, IState> {
 		)
 	}
 }
+
+export default App;
