@@ -21,6 +21,7 @@ Upcoming:
 	- Today indicator
 	- Tomorrow indicator
 	- Choose day
+	- Pressing the plus button immediately opens Task Editor with the selected date
 	- Month & year navigator (on top of the screen)
 	- Go to specific month & year modal
 - About Screen

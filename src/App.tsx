@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import BottomMenu, { IBottomMenuProps } from "./Components/BottomMenu";
 
+import BottomMenu, { IBottomMenuProps } from "./Components/BottomMenu";
 import AboutUs from "./Components/AboutUs";
 import TaskList from "./Components/TaskList";
 import CalendarNavigator from "./Components/CalendarNavigator";
 import EmptyTaskMessage from "./Components/EmptyTaskMessage";
 import AddNewTaskMenu from "./Components/AddNewTaskMenu";
+import TaskEditorModal from "./Components/TaskEditorModal";
 
 import {
 	DBDateFormatter,
@@ -14,11 +15,18 @@ import {
 	validateDateFormat
 } from "./modules/commonDate";
 
+import {
+	addNewTaskToday,
+	addNewTaskTomorrow,
+	hideNewTaskMenu
+} from "./modules/AddNewTaskMethods";
+
+import {
+	loadTaskData,
+	saveTaskData
+} from "./modules/StorageMethods";
+
 import "./styles/App.scss";
-import { applyMixins } from "./modules/generics";
-import { addNewTaskToday, addNewTaskTomorrow, hideNewTaskMenu } from "./modules/AddNewTaskMethods";
-import TaskEditorModal from "./Components/TaskEditorModal";
-import { parseJSONMap, stringifyMap } from "./modules/commonMap";
 
 export interface ITaskItem {
 	label: string;
@@ -73,25 +81,10 @@ class App extends Component<{}, IState> {
 	addNewTaskTomorrow = addNewTaskTomorrow;
 	hideNewTaskMenu = hideNewTaskMenu;
 
+	// StorageMethods
+	loadTaskData = loadTaskData;
+	saveTaskData = saveTaskData;
 
-	// localStorage operations
-	readonly localStorageKey = "task_list";
-	loadTaskData() {
-		const savedTaskList = localStorage.getItem(this.localStorageKey);
-
-		console.log("lTD sTL", savedTaskList);
-
-		if (!savedTaskList) return;
-
-		const tasks = parseJSONMap(savedTaskList);
-		this.setState({ tasks });
-	}
-
-	saveTaskData() {
-		console.log("sTD tasks", this.state.tasks);
-		localStorage.setItem("task_list", stringifyMap(this.state.tasks));
-	}
-	
 	setDefaultCalendarDate() {
 		this.setState({
 			calendarDate: getTodayDate()
