@@ -1,0 +1,29 @@
+Fancy To-Do List App
+Feature List & Changelog
+
+14-06-2021
+- Calendar Navigator (on top of the screen)
+	- Click to go to the nearest date
+- Dynamic date display on home & edit screen
+- Bottom menu
+	- Active menu item indicator
+- Add new task menu & the transitions
+- Empty task list message on Home Screen
+
+Upcoming:
+- Add a new task modal box
+	- Changing the date also changes the calendar date (optional)
+- Save data to localStorage
+- Edit task opens the same modal as "add a new task" but the contents & index reference depend on the touched item
+- Delete task
+- Calendar
+	- Working calendar
+	- Today indicator
+	- Tomorrow indicator
+	- Choose day
+	- Month & year navigator (on top of the screen)
+	- Go to specific month & year modal
+- About Screen
+	- Touching the name opens the author's website (also give a hint)
+- Translatable strings
+- Donation link to PayPal
