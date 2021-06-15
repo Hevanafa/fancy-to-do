@@ -1,4 +1,5 @@
 export type GenericOnClickEvent = (e: React.MouseEvent) => void;
+export type GenericOnChangeEvent = (e: React.ChangeEvent) => void;
 
 // https://www.digitalocean.com/community/tutorials/typescript-mixins
 function applyMixins(derivedCtor: any, baseCtors: any[]) {

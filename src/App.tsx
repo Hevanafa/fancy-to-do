@@ -17,6 +17,7 @@ import {
 import "./styles/App.scss";
 import { applyMixins } from "./modules/generics";
 import { addNewTaskToday, addNewTaskTomorrow, hideNewTaskMenu } from "./modules/AddNewTaskMethods";
+import TaskEditorModal from "./Components/TaskEditorModal";
 
 export interface ITaskItem {
 	label: string;
@@ -84,23 +85,31 @@ class App extends Component<{}, IState> {
 		});
 	}
 
-	pushNewTask(dateStr: string, label: string) {
-		if (!dateStr || !label) return;
+	pushNewTask(dateStr: string, taskLabel: string) {
+		if (!dateStr || !taskLabel) return;
 
 		const { tasks } = this.state;
+
+		console.log("pNT", dateStr, taskLabel);
 
 		// if ((date as Date).getDate()) {
 		// 	const dateStr = DBDateFormatter.format(date);
 		// }
 
-		let taskListRef = tasks.get(dateStr) || [];
-		if (!taskListRef)
-			tasks.set(dateStr, taskListRef);
-
-		taskListRef.push({
-			label: label,
+		const newTaskItem = {
+			label: taskLabel,
 			checked: false
-		});
+		};
+
+		let taskListRef = tasks.get(dateStr);
+		if (taskListRef) {
+			taskListRef.push(newTaskItem);
+			tasks.set(dateStr, taskListRef);
+		} else {
+			tasks.set(dateStr, [newTaskItem]);
+		}
+
+		console.log("tasks", tasks);
 
 		this.setState({ tasks });
 	}
@@ -153,35 +162,75 @@ class App extends Component<{}, IState> {
 		this.closeTaskEditor();
 	}
 
-	// Todo: save task
+	get getDBDateStr() {
+		const { taskEditorDateStr } = this.state;
+		return (
+			taskEditorDateStr.includes("/")
+			? taskEditorDateStr.split("/")
+			: taskEditorDateStr.split("-")
+		).reverse().join("/");
+	}
 
 	// Task Editor
 	saveTaskDOM() {
 		const {
-			taskEditorTaskName,
-			taskEditorDateStr
+			taskEditorDateStr,
+			taskEditorTaskName
 		} = this.state;
 
-		if (!taskEditorTaskName)
+		if (!taskEditorTaskName.trim()) {
+			alert("At least put a word to your task.");
 			return;
+		}
 
 		if (!validateDateFormat(taskEditorDateStr)) {
-			alert("Date is not in the correct format!");
+			alert("Date is not in the correct format.");
 			return;
 		}
 
 		this.pushNewTask(
-			taskEditorDateStr,
-			taskEditorTaskName
+			this.getDBDateStr,
+			taskEditorTaskName.trim()
 		);
 
 		this.closeTaskEditor();
+	}
+
+	closeTaskEditorDOM() {
+		const {
+			taskEditorTaskName
+		} = this.state;
+
+		if (taskEditorTaskName.length > 0) {
+			if (window.confirm("Discard changes?"))
+				this.closeTaskEditor();
+		} else this.closeTaskEditor();
 	}
 
 	closeTaskEditor() {
 		this.setState({
 			isTaskEditorVisible: false
 		});
+	}
+
+	handleTaskEditorInput(e: React.FormEvent<HTMLInputElement>) {
+		const name = e.currentTarget.name,
+			value = e.currentTarget.value;
+
+		// console.log(name + ": " + value);
+
+		switch (name) {
+			case "taskEditorTaskName":
+				this.setState({
+					taskEditorTaskName: value || ""
+				});
+			break;
+			case "taskEditorDateStr":
+				this.setState({
+					taskEditorDateStr: value || ""
+				});
+			break;
+		}
 	}
 
 	// Bottom Menu
@@ -240,6 +289,7 @@ class App extends Component<{}, IState> {
 			isEditMode,
 			isAddNewTaskVisible,
 			isAboutScreen,
+			isTaskEditorVisible,
 
 			// Other states
 			calendarDate,
@@ -286,6 +336,18 @@ class App extends Component<{}, IState> {
 				{
 					isAboutScreen
 						? <AboutUs />
+						: null
+				}
+
+				{
+					isTaskEditorVisible
+						? <TaskEditorModal
+							{...this.state}
+
+							inputHandler={this.handleTaskEditorInput.bind(this)}
+							cancelButtonHandler={this.closeTaskEditorDOM.bind(this)}
+							confirmButtonHandler={this.saveTaskDOM.bind(this)}
+							/>
 						: null
 				}
 

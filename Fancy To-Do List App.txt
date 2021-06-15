@@ -25,5 +25,7 @@ Upcoming:
 	- Go to specific month & year modal
 - About Screen
 	- Touching the name opens the author's website (also give a hint)
+	- Add: Created with ♥ by Hevanafa using Apache Cordova + React.js + TypeScript + SCSS
+	- Add PayPal donation link
 - Translatable strings
 - Donation link to PayPal
