@@ -8,7 +8,7 @@ export default class EmptyTaskMessage extends React.Component {
 		return (
 			<div className="empty-task-msg-container">
 				<img
-					src={"./assets/img/home/help.png"}
+					src={getImgSrc("/home/help.png")}
 					alt="help" />
 
 				<div>

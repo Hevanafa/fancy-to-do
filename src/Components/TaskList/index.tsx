@@ -1,7 +1,9 @@
 import React from "react";
 import { ITaskItem } from "../../App";
 import { DBDateFormatter, getReadableDate } from "../../modules/commonDate";
-import { GenericOnClickEvent } from "../../modules/generics";
+import { GenericOnClickEvent, getImgSrc } from "../../modules/generics";
+
+import "./index.scss";
 
 interface IProps {
 	isHome: boolean;
@@ -40,54 +42,91 @@ export default class TaskList extends React.Component<IProps> {
 				<div className="scrollable-area">
 					{
 						taskList && taskList.length > 0
-							? taskList.map((item, idx) => (
-								<div
-									key={`li_${idx}`}
-									className="list-item">
-									<div className="task-label">
-										<span
-											{...{idx: idx}}
-											onClick={
-											isEditMode
-												? editTaskDOM
-												: checkTaskDOM
-										}>
-											{item.label}
-										</span>
+							? taskList.map((item, idx) => {
+								const hasLongText = item.label.length > 20;
+								const className = "list-item"
+									+ (item.checked ? " checked" : "")
+									+ (hasLongText ? " long-text" : "");
+
+								const btnEdit = (
+									<button
+										className="btn-transparent btn-edit"
+										{...{ idx: idx }}
+										onClick={editTaskDOM}>
 
 										{
-											isEditMode
-												? (
-													<>
-														<button
-															{...{idx: idx}}
-															onClick={editTaskDOM}>
-																Pencil
-														</button>
-														<button
-															{...{idx: idx}}
-															onClick={deleteTaskDOM}>
-																Garbage can
-														</button>
-													</>
-												) : null
+											item.checked
+												? <img
+													src={getImgSrc("/home/white-pencil.png")}
+													alt="edit" />
+												: <img
+													src={getImgSrc("/home/pencil.png")}
+													alt="edit" />
+										}
+									</button>
+								);
+
+								const btnDelete = (
+									<button
+										className="btn-transparent btn-delete"
+										{...{ idx: idx }}
+										onClick={deleteTaskDOM}>
+										<img
+											src={getImgSrc("/home/delete.png")}
+											alt="delete" />
+									</button>
+								);
+
+								const checkbox = (
+									<div
+										className="checkbox"
+										{...{ idx: idx }}
+										onClick={checkTaskDOM}>
+										{
+											item.checked
+												? <img src={getImgSrc("/home/white-checkmark.png")} />
+												: null
 										}
 									</div>
+								);
 
-									{
-										isHome
-											? (
-												<div className="checkbox">
-													{
-														item.checked
-															? "Checked"
-															: "Not checked"
-													}
-												</div>
-											) : null
-									}
-								</div>
-							))
+								return (
+									<div
+										key={`li_${idx}`}
+										className={className}>
+										{
+											item.checked
+												? <>
+													<div className="inner-shadow"></div>
+
+													<img
+														src={getImgSrc("/home/task-checkmark.png")}
+														className="task-checkmark"
+														alt="task checkmark" />
+												</>
+												: null
+										}
+
+										<div className="task-label"
+											{...{ idx: idx }}
+											onClick={
+												isEditMode
+													? editTaskDOM
+													: checkTaskDOM
+											}>
+											<span>
+												{item.label}
+											</span>
+
+											{isEditMode ? btnEdit : null}
+										</div>
+
+										{isEditMode ? btnDelete : null}
+
+										{isHome ? checkbox : null}
+									</div>
+								);
+							})
 							: null
 					}
 				</div>

@@ -1,5 +1,111 @@
-.task-list-container {
-	& > .calendar-navigator {
+@import "../../styles/constants.scss";
 
+.task-list-container {
+	.scrollable-area {
+		overflow-y: scroll;
+		max-height: 65vh;
+		// border: 1px solid black;
+		padding-bottom: 2vh;
+
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 2.5vh;
+
+		& > .list-item {
+			position: relative;
+
+			display: flex;
+			align-items: center;
+
+			padding: 0 3.5vw;
+
+			background: white;
+			box-shadow: 0 4px 8px $dark;
+			font-weight: bold;
+
+			font-size: 2.5vh;
+			height: 8vh;
+
+			overflow: hidden;
+			border: 1px solid #959595;
+
+			&.long-text {
+				font-size: 1.5vh;
+			}
+
+			&.checked {
+				background: #262626;
+				color: white;
+
+				& > .checkbox {
+					background: $cyan;
+					border: 1px solid #00bbff;
+					box-shadow: 0 0 4px $cyan;
+				}
+			}
+
+			& > .inner-shadow {
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				box-shadow: inset 0 0 30px $darker;
+			}
+
+			& > .task-checkmark {
+				position: absolute;
+				left: -2px;
+				top: -2px;
+				height: 14vh;
+			}
+
+			& > .task-label {
+				z-index: 0;
+				position: relative;
+
+				flex-grow: 1;
+
+				display: flex;
+				align-items: center;
+
+				.btn-edit > img {
+					margin-left: 2vw;
+					height: 4vh;
+				}
+			}
+
+			& > .btn-delete,
+			& > .checkbox {
+				z-index: 0;
+				flex-shrink: 0;
+
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				width: 6vw;
+				height: 6vw;
+
+				border-radius: 1vw;
+			}
+
+			& > .btn-delete {
+				background: #f24724;
+
+				& > img {
+					width: 75%;
+				}
+			}
+
+			& > .checkbox {
+				background: white;
+				border: 1px solid $dark;
+
+				& > img {
+					width: 50%;
+				}
+			}
+		}
 	}
 }

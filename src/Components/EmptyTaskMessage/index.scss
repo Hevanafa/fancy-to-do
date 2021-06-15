@@ -1,6 +1,8 @@
 @import "../../styles/constants.scss";
 
 .empty-task-msg-container {
+	pointer-events: none;
+
 	& > img,
 	& > div {
 		position: fixed;
