@@ -10,7 +10,11 @@ import TaskEditorModal from "./Components/TaskEditorModal";
 
 import {
 	DBDateFormatter,
+	getDayName,
+	getFirstDayOfMonth,
+	getMonthName,
 	getTodayDate,
+	getYearStr,
 	NormalDateFormatter,
 	validateDateFormat
 } from "./modules/commonDate";
@@ -44,12 +48,16 @@ interface IState extends IBottomMenuProps {
 	taskEditorTaskName: string;
 	taskEditorDateStr: string;
 
+	taskEditorItemIdx: number; // only for task editing
+
 	// Calendar
 	calendarDate: Date;
 }
 class App extends Component<{}, IState> {
 	constructor(props: any) {
 		super(props);
+
+		this.testDateModule();
 
 		this.state = {
 			lang: "en",
@@ -67,9 +75,23 @@ class App extends Component<{}, IState> {
 			taskEditorTaskName: "",
 			taskEditorDateStr: "",
 
+			taskEditorItemIdx: -1,
+
 			// Calendar
 			calendarDate: getTodayDate()
 		};
+	}
+
+	testDateModule() {
+		const today = new Date();
+
+		console.log(
+			"tDM",
+			getFirstDayOfMonth(),
+			getDayName(today.getDay()),
+			getMonthName(today.getMonth()),
+			getYearStr(today.getFullYear())
+		);
 	}
 
 	componentDidMount() {
@@ -106,11 +128,7 @@ class App extends Component<{}, IState> {
 
 		const { tasks } = this.state;
 
-		console.log("pNT", dateStr, taskLabel);
-
-		// if ((date as Date).getDate()) {
-		// 	const dateStr = DBDateFormatter.format(date);
-		// }
+		// console.log("pNT", dateStr, taskLabel);
 
 		const newTaskItem = {
 			label: taskLabel,
@@ -125,58 +143,91 @@ class App extends Component<{}, IState> {
 			tasks.set(dateStr, [newTaskItem]);
 		}
 
-		// console.log("tasks", stringifyMap(tasks));
+		this.setState({ tasks }, () => {
+			this.saveTaskData();
+		});
+	}
 
-		this.saveTaskData();
+	updateTask(dateStr: string, idx: number, taskLabel: string) {
+		if (!dateStr || idx < 0 || !taskLabel) return;
 
-		this.setState({ tasks });
+		const { tasks } = this.state;
 
-		// Todo: save to localStorage
+		let taskListRef = tasks.get(dateStr);
+
+		if (!taskListRef) return;
+
+		taskListRef[idx].label = taskLabel;
+
+		this.setState({ tasks }, () => {
+			this.saveTaskData();
+		});
 	}
 
 	
 	// Home Screen
 	checkTaskDOM(e: React.MouseEvent) {
-		const dateKey = e.currentTarget.getAttribute("date") || "",
-			idx = Number(e.currentTarget.getAttribute("idx")) || -1;
+		// const dateKey = e.currentTarget.getAttribute("date") || "",
+		const idx = Number(e.currentTarget.getAttribute("idx"));
 
-		const { tasks } = this.state;
+		const {
+			calendarDate,
+			tasks
+		} = this.state;
 
+		const dateKey = DBDateFormatter.format(calendarDate);
 		const taskListRef = tasks.get(dateKey);
+
 		if (!taskListRef) return;
 
 		taskListRef[idx].checked = !taskListRef[idx].checked;
 
-		this.setState({ tasks });
+		this.setState({ tasks }, () => {
+			this.saveTaskData();
+		});
 	}
 
 	// Edit Mode
 	editTaskDOM(e: React.MouseEvent) {
-		const dateKey = e.currentTarget.getAttribute("date") || "",
-			idx = Number(e.currentTarget.getAttribute("idx")) || -1;
+		const idx = Number(e.currentTarget.getAttribute("idx"));
 
-		const { tasks } = this.state;
+		const {
+			calendarDate,
+			tasks
+		} = this.state;
+
+		const dateKey = DBDateFormatter.format(calendarDate);
 		const taskListRef = tasks.get(dateKey);
+
 		if (!taskListRef) return;
 
 		this.setState({
 			isTaskEditorVisible: true,
 			taskEditorTaskName: taskListRef[idx].label,
-			taskEditorDateStr: NormalDateFormatter.format(new Date(dateKey))
+			taskEditorDateStr: NormalDateFormatter.format(calendarDate),
+			taskEditorItemIdx: idx
 		});
 	}
 
 	deleteTaskDOM(e: React.MouseEvent) {
-		const dateKey = e.currentTarget.getAttribute("date") || "",
-			idx = Number(e.currentTarget.getAttribute("idx")) || -1;
+		// const dateKey = e.currentTarget.getAttribute("date") || "",
+		const idx = Number(e.currentTarget.getAttribute("idx"));
 
-		const { tasks } = this.state;
+		const {
+			calendarDate,
+			tasks
+		} = this.state;
+
+		const dateKey = DBDateFormatter.format(calendarDate);
 		const taskListRef = tasks.get(dateKey);
+
 		if (!taskListRef) return;
 
 		if (window.confirm(`Delete ${taskListRef[idx].label}?`)) {
 			taskListRef.splice(idx, 1);
-			this.setState({ tasks });
+			this.setState({ tasks }, () => {
+				this.saveTaskData();
+			});
 		}
 
 		this.closeTaskEditor();
@@ -195,7 +246,8 @@ class App extends Component<{}, IState> {
 	saveTaskDOM() {
 		const {
 			taskEditorDateStr,
-			taskEditorTaskName
+			taskEditorTaskName,
+			taskEditorItemIdx
 		} = this.state;
 
 		if (!taskEditorTaskName.trim()) {
@@ -208,8 +260,14 @@ class App extends Component<{}, IState> {
 			return;
 		}
 
-		this.pushNewTask(
+		if (taskEditorItemIdx === -1)
+			this.pushNewTask(
+				this.getDBDateStr,
+				taskEditorTaskName.trim()
+			);
+		else this.updateTask(
 			this.getDBDateStr,
+			taskEditorItemIdx,
 			taskEditorTaskName.trim()
 		);
 
@@ -342,7 +400,13 @@ class App extends Component<{}, IState> {
 								setDate={this.setCalendarNavDate.bind(this)}
 							/>
 
-							<TaskList {...this.state} />
+							<TaskList
+								{...this.state}
+
+								checkTaskDOM={this.checkTaskDOM.bind(this)}
+								editTaskDOM={this.editTaskDOM.bind(this)}
+								deleteTaskDOM={this.deleteTaskDOM.bind(this)}
+							/>
 
 							{
 								!todayTaskList || !todayTaskList.length

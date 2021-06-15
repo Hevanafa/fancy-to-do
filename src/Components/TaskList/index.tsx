@@ -1,16 +1,31 @@
 import React from "react";
 import { ITaskItem } from "../../App";
 import { DBDateFormatter, getReadableDate } from "../../modules/commonDate";
+import { GenericOnClickEvent } from "../../modules/generics";
 
 interface IProps {
+	isHome: boolean;
+	isEditMode: boolean;
+
 	calendarDate: Date;
-	tasks: Map<string, ITaskItem[]>
+	tasks: Map<string, ITaskItem[]>;
+
+	checkTaskDOM: GenericOnClickEvent;
+	editTaskDOM: GenericOnClickEvent;
+	deleteTaskDOM: GenericOnClickEvent;
 }
 export default class TaskList extends React.Component<IProps> {
 	render() {
 		const {
+			isHome,
+			isEditMode,
+
 			calendarDate,
-			tasks
+			tasks,
+
+			checkTaskDOM,
+			editTaskDOM,
+			deleteTaskDOM
 		} = this.props;
 
 		const dateStr = DBDateFormatter.format(calendarDate),
@@ -25,20 +40,55 @@ export default class TaskList extends React.Component<IProps> {
 				<div className="scrollable-area">
 					{
 						taskList && taskList.length > 0
-						? taskList.map((item, idx) => (
-							<div
-								key={`li_${idx}`}
-								className="list-item">
-								<div className="task-label">
-									{item.label}
-								</div>
+							? taskList.map((item, idx) => (
+								<div
+									key={`li_${idx}`}
+									className="list-item">
+									<div className="task-label">
+										<span
+											{...{idx: idx}}
+											onClick={
+											isEditMode
+												? editTaskDOM
+												: checkTaskDOM
+										}>
+											{item.label}
+										</span>
 
-								<div className="checkbox">
-									C
+										{
+											isEditMode
+												? (
+													<>
+														<button
+															{...{idx: idx}}
+															onClick={editTaskDOM}>
+																Pencil
+														</button>
+														<button
+															{...{idx: idx}}
+															onClick={deleteTaskDOM}>
+																Garbage can
+														</button>
+													</>
+												) : null
+										}
+									</div>
+
+									{
+										isHome
+											? (
+												<div className="checkbox">
+													{
+														item.checked
+															? "Checked"
+															: "Not checked"
+													}
+												</div>
+											) : null
+									}
 								</div>
-							</div>
-						))
-						: null
+							))
+							: null
 					}
 				</div>
 			</div>

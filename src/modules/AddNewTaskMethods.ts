@@ -20,7 +20,8 @@ function addNewTaskToday(this: App) {
 		isTaskEditorVisible: true,
 
 		taskEditorTaskName: "",
-		taskEditorDateStr: NormalDateFormatter.format(new Date())
+		taskEditorDateStr: NormalDateFormatter.format(new Date()),
+		taskEditorItemIdx: -1
 	});
 }
 
@@ -36,7 +37,8 @@ function addNewTaskTomorrow(this: App) {
 		isTaskEditorVisible: true,
 
 		taskEditorTaskName: "",
-		taskEditorDateStr: NormalDateFormatter.format(date)
+		taskEditorDateStr: NormalDateFormatter.format(date),
+		taskEditorItemIdx: -1
 	});
 }
 

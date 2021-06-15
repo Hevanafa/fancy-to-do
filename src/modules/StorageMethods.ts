@@ -1,7 +1,7 @@
 import App from "../App";
 import { parseJSONMap, stringifyMap } from "./commonMap";
 
-const localStorageKey = "task_list";
+const localStorageKey = "TaskList";
 
 function loadTaskData(this: App) {
 	const savedTaskList = localStorage.getItem(localStorageKey);
