@@ -57,7 +57,9 @@ class App extends Component<{}, IState> {
 	constructor(props: any) {
 		super(props);
 
-		this.testDateModule();
+		// document.addEventListener("deviceready", this.onDeviceReady, false);
+
+		// this.testDateModule();
 
 		this.state = {
 			lang: "en",
@@ -81,6 +83,11 @@ class App extends Component<{}, IState> {
 			calendarDate: getTodayDate()
 		};
 	}
+
+	// onDeviceReady() {
+	// 	const nav = navigator as any;
+	// 	alert(nav.notification);
+	// }
 
 	testDateModule() {
 		const today = new Date();
