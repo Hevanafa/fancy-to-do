@@ -30,6 +30,14 @@
 		}
 	}
 
+	.about-donation {
+		display: flex;
+
+		& > button > img {
+			height: 4vh;
+		}
+	}
+
 	.about-text-smaller {
 		margin: 3vh 0;
 		font-family: Roboto-Light;

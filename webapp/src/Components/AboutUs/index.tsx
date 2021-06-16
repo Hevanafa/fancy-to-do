@@ -8,20 +8,17 @@ import "./index.scss";
 export default class AboutUs extends React.Component {
 	openLinkDOM = openLinkDOM.bind(this);
 
-	getLinkButton(...params: [string, string]): JSX.Element;
-	getLinkButton(url: string, imageName: string) {
-		return (
-			<button
-				className="btn-transparent btn-link"
-				{...{ link: url }}
-				onClick={openLinkDOM}>
-				<img
-					src={getImgSrc(`/about-us/${imageName.toLowerCase()}.png`)}
-					alt={imageName}
-				/>
-			</button>
-		);
-	}
+	getLinkButton = (url: string, imageName: string) => (
+		<button
+			className="btn-transparent btn-link"
+			{...{ link: url }}
+			onClick={openLinkDOM}>
+			<img
+				src={getImgSrc(`/about-us/${imageName.toLowerCase()}.png`)}
+				alt={imageName}
+			/>
+		</button>
+	);
 
 	render() {
 		return (
@@ -70,13 +67,16 @@ export default class AboutUs extends React.Component {
 				</div>
 
 				<div className="about-text-smaller">
-					The icons are from Freepik and Flaticon.
+					The icons are from Freepik, Flaticon and Roundicons.
 				</div>
 
 				<div className="about-text-smaller about-donation">
 					<span>
 						Please donate to help us build better applications in the future!
 					</span>
+					{
+						this.getLinkButton("https://paypal.me/hevanafa?locale.x=en_US", "PayPal")
+					}
 				</div>
 
 				<div className="about-text-smaller">
