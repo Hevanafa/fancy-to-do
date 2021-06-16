@@ -121,7 +121,7 @@ class App extends Component<{}, IState> {
 		});
 	}
 
-	setCalendarNavDate(e: React.MouseEvent) {
+	setCalendarDateDOM(e: React.MouseEvent) {
 		const dateStr = e.currentTarget.getAttribute("date-str");
 
 		if (!dateStr) return;
@@ -343,7 +343,7 @@ class App extends Component<{}, IState> {
 					isCalendarNavigatorVisible
 						? <CalendarNavigator
 							{...this.state}
-							setDate={this.setCalendarNavDate.bind(this)}
+							setDate={this.setCalendarDateDOM.bind(this)}
 						/>
 						: null
 				}
@@ -390,6 +390,7 @@ class App extends Component<{}, IState> {
 					isCalendar
 						? <Calendar
 							{...this.state}
+							setDate={this.setCalendarDateDOM.bind(this)}
 						/>
 						: null
 				}

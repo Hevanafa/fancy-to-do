@@ -47,12 +47,26 @@ function getTomorrowDate() {
 	);
 }
 
-function getFirstDayOfMonth(date: Date) {
-	return new Date(
+const getFirstDayOfMonth = (date: Date) =>
+	new Date(
 		date.getFullYear(),
 		date.getMonth(),
 		1
 	);
+
+const getFirstDayOfYear = (year: number) =>
+	new Date(year, 0, 1);
+
+const oneDayMillis = 8.64e7;
+
+/**
+ * Warning: this function may not be accurate to represent the real day of the year.
+ * @param date 
+ * @returns the day of the year
+ */
+function getDayOfYear(date: Date) {
+	const diff = date.getTime() - getFirstDayOfYear(date.getFullYear()).getTime();
+	return Math.ceil(diff / oneDayMillis);
 }
 
 const isLeapYear = (year: number) =>
@@ -119,6 +133,8 @@ export {
 	getTomorrowDate,
 
 	getFirstDayOfMonth,
+	getFirstDayOfYear,
+	getDayOfYear,
 	getMonthDays,
 
 	getDayName,

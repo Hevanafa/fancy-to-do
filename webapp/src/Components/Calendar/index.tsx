@@ -1,5 +1,7 @@
 import React from "react";
+
 import { ITaskItem } from "../../App";
+
 import {
 	DBDateFormatter,
 	getDayName,
@@ -8,12 +10,18 @@ import {
 	getTodayDate,
 	getTomorrowDate
 } from "../../modules/commonDate";
-import { getImgSrc } from "../../modules/generics";
+import { getQuoteOfTheDay } from "../../modules/commonQuotes";
+
+import {
+	GenericOnClickEvent,
+	getImgSrc
+} from "../../modules/generics";
 
 import "./index.scss";
 
 interface IProps {
 	calendarDate: Date;
+	setDate: GenericOnClickEvent;
 	tasks: Map<string, ITaskItem[]>;
 }
 export default class Calendar extends React.Component<IProps> {
@@ -46,13 +54,14 @@ export default class Calendar extends React.Component<IProps> {
 		return rows;
 	}
 
-	componentDidMount() {
-		console.log(this.getCalendarRows());
-	}
+	// componentDidMount() {
+		// console.log(this.getCalendarRows());
+	// }
 
 	render() {
 		const {
 			calendarDate,
+			setDate,
 			tasks
 		} = this.props;
 
@@ -64,12 +73,14 @@ export default class Calendar extends React.Component<IProps> {
 			month: "2-digit"
 		}).format(calendarDate);
 
-		console.log(calendarYearMonthStr);
+		const quoteOfTheDay = getQuoteOfTheDay();
+
+		// console.log(calendarYearMonthStr);
 
 		return (
 			<>
 				<div className="long-press-hint">
-					Hint: Long press :)
+				Hint: Touch and hold month name to go to a specific month/year.
 				</div>
 
 				<div className="weekday-container">
@@ -92,12 +103,12 @@ export default class Calendar extends React.Component<IProps> {
 								const chosenDate = calendarDate.getDate();
 								const isSelected = chosenDate === day;
 
-								const dayStr = `${calendarYearMonthStr}/${day}`;
-								const isToday = dayStr === DBDateFormatter.format(todayDate);
-								const isTomorrow = dayStr === DBDateFormatter.format(tomorrowDate);
+								const dateStr = `${calendarYearMonthStr}/${day}`;
+								const isToday = dateStr === DBDateFormatter.format(todayDate);
+								const isTomorrow = dateStr === DBDateFormatter.format(tomorrowDate);
 
 								// Task List
-								const taskListRef = tasks.get(dayStr);
+								const taskListRef = tasks.get(dateStr);
 
 								const taskCount = taskListRef
 									? taskListRef.length
@@ -120,12 +131,14 @@ export default class Calendar extends React.Component<IProps> {
 									+ (isToday ? " today" : "")
 									+ (isTomorrow ? " tomorrow" : "");
 
-								// Todo: add the details
-
 								return (
 									<div
 										key={`day_${idx}`}
-										className={className}>
+										className={className}
+										{...{
+											"date-str": dateStr
+										}}
+										onClick={setDate}>
 										{
 											day
 												? (
@@ -186,7 +199,15 @@ export default class Calendar extends React.Component<IProps> {
 
 				<div className="daily-motivation">
 					Daily motivation<br />
-					[Insert some inspirational quotes here]
+					{
+						typeof(quoteOfTheDay) === "string"
+						? `"${quoteOfTheDay}"`
+						: <>
+							{`"${quoteOfTheDay[0]}"`}
+							<br />
+							{`-${quoteOfTheDay[1]}`}
+						</>
+					}
 				</div>
 			</>
 		);
