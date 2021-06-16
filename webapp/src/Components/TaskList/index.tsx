@@ -84,7 +84,9 @@ export default class TaskList extends React.Component<IProps> {
 										onClick={checkTaskDOM}>
 										{
 											item.checked
-												? <img src={getImgSrc("/home/white-checkmark.png")} />
+												? <img
+													src={getImgSrc("/home/white-checkmark.png")}
+													alt="white checkmark" />
 												: null
 										}
 									</div>

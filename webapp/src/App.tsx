@@ -15,7 +15,6 @@ import {
 	getMonthName,
 	getTodayDate,
 	getYearStr,
-	NormalDateFormatter,
 	validateDateFormat
 } from "./modules/commonDate";
 
@@ -31,6 +30,7 @@ import {
 } from "./modules/StorageMethods";
 
 import "./styles/App.scss";
+import { checkTaskDOM, deleteTaskDOM, editTaskDOM } from "./modules/TaskListMethods";
 
 export interface ITaskItem {
 	label: string;
@@ -164,75 +164,12 @@ class App extends Component<{}, IState> {
 		});
 	}
 
+	// TaskListMethods
+	checkTaskDOM = checkTaskDOM;
+	editTaskDOM = editTaskDOM;
+	deleteTaskDOM = deleteTaskDOM;
+
 	
-	// Home Screen
-	checkTaskDOM(e: React.MouseEvent) {
-		// const dateKey = e.currentTarget.getAttribute("date") || "",
-		const idx = Number(e.currentTarget.getAttribute("idx"));
-
-		const {
-			calendarDate,
-			tasks
-		} = this.state;
-
-		const dateKey = DBDateFormatter.format(calendarDate);
-		const taskListRef = tasks.get(dateKey);
-
-		if (!taskListRef) return;
-
-		taskListRef[idx].checked = !taskListRef[idx].checked;
-
-		this.setState({ tasks }, () => {
-			this.saveTaskData();
-		});
-	}
-
-	// Edit Mode
-	editTaskDOM(e: React.MouseEvent) {
-		const idx = Number(e.currentTarget.getAttribute("idx"));
-
-		const {
-			calendarDate,
-			tasks
-		} = this.state;
-
-		const dateKey = DBDateFormatter.format(calendarDate);
-		const taskListRef = tasks.get(dateKey);
-
-		if (!taskListRef) return;
-
-		this.setState({
-			isTaskEditorVisible: true,
-			taskEditorTaskName: taskListRef[idx].label,
-			taskEditorDateStr: NormalDateFormatter.format(calendarDate),
-			taskEditorItemIdx: idx
-		});
-	}
-
-	deleteTaskDOM(e: React.MouseEvent) {
-		// const dateKey = e.currentTarget.getAttribute("date") || "",
-		const idx = Number(e.currentTarget.getAttribute("idx"));
-
-		const {
-			calendarDate,
-			tasks
-		} = this.state;
-
-		const dateKey = DBDateFormatter.format(calendarDate);
-		const taskListRef = tasks.get(dateKey);
-
-		if (!taskListRef) return;
-
-		if (window.confirm(`Delete ${taskListRef[idx].label}?`)) {
-			taskListRef.splice(idx, 1);
-			this.setState({ tasks }, () => {
-				this.saveTaskData();
-			});
-		}
-
-		this.closeTaskEditor();
-	}
-
 	get getDBDateStr() {
 		const { taskEditorDateStr } = this.state;
 		return (
