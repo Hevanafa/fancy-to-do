@@ -47,15 +47,31 @@ function getTomorrowDate() {
 	);
 }
 
-function getFirstDayOfMonth() {
-	const today = new Date();
-
+function getFirstDayOfMonth(date: Date) {
 	return new Date(
-		today.getFullYear(),
-		today.getMonth(),
+		date.getFullYear(),
+		date.getMonth(),
 		1
 	);
 }
+
+const isLeapYear = (year: number) =>
+	(year % 4 === 0 && year % 100 > 0) || year % 400 === 0;
+
+function getMonthDays(date: Date) {
+	const month = date.getMonth();
+
+	return (
+		[4, 6, 9, 11].includes(month)
+			? 30
+			: month === 2 ? (
+				isLeapYear(date.getFullYear())
+					? 29
+					: 28
+			) : 31
+	);
+}
+
 
 /**
  * Returns the name of the day:
@@ -75,22 +91,23 @@ const getDayName = (day: number, short = true) =>
  * 0: January
  * 11: December
  */
-const getMonthName = (month: number) =>
+const getMonthName = (month: number, short = true) =>
 	month < 0 || month > 11
 		? `Wrong month: ${month}`
 		: new Date(2021, month, 1)
 			.toLocaleString("zh-TW", {
-				month: "long"
+				month: short ? "short" : "long"
 			});
 
 const getYearStr = (year: number) =>
-	new Date(year).toLocaleString("zh-TW", {
-		year: "numeric"
-	});
+	new Intl.NumberFormat("zh-TW").format(year);
 
-// Accept dd/mm/yyyy and yyyy/mm/dd format
+/**
+ * Basic date string format validator.
+ * @param dateStr Date in dd/mm/yyyy or yyyy/mm/dd format, with either slash or dash as the separator.
+ */
 const validateDateFormat = (dateStr: string) =>
-	!!dateStr.match(/(\d{4}[-/]\d{1,2}[-/]\d{1,2}|\d{1,2}[-/]\d{1,2}[-/]\d{4})/);
+	!!dateStr.match(/^(\d{4}[-/]\d{1,2}[-/]\d{1,2}|\d{1,2}[-/]\d{1,2}[-/]\d{4})$/);
 
 export {
 	DBDateFormatter,
@@ -102,6 +119,8 @@ export {
 	getTomorrowDate,
 
 	getFirstDayOfMonth,
+	getMonthDays,
+
 	getDayName,
 	getMonthName,
 	getYearStr,

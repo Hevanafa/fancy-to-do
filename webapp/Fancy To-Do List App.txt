@@ -25,13 +25,13 @@ Today was focused on the task creation & editing logic.
 16-06-2021
 - Styling the task list
 - Styling the task list in edit mode
+- Styling the task editor
 
 
 Upcoming:
-- Refactor DOM event handler names
-- Styling the task editor
+- Refactor DOM event handler names (DONE, 16-06-2021)
 
-- Rearrange task list items
+- List Background image at home
 
 - Calendar
 	- Weekday labels
@@ -47,6 +47,8 @@ Upcoming:
 	- Go to specific month & year modal
 	- Styling the Go To month & year modal
 	- Daily motivation list (for prototype, cycle through 10 items depending on the day of the year)
+- Main Task List
+	- Rearrange task list items
 - About Screen
 	- Touching the name opens the author's website (also give a hint)
 	- Add: Created with ♥ by Hevanafa using Apache Cordova + React.js + TypeScript + SCSS

@@ -31,6 +31,7 @@ import {
 
 import "./styles/App.scss";
 import { checkTaskDOM, deleteTaskDOM, editTaskDOM } from "./modules/TaskListMethods";
+import Calendar from "./Components/Calendar";
 
 export interface ITaskItem {
 	label: string;
@@ -94,7 +95,7 @@ class App extends Component<{}, IState> {
 
 		console.log(
 			"tDM",
-			getFirstDayOfMonth(),
+			getFirstDayOfMonth(today),
 			getDayName(today.getDay()),
 			getMonthName(today.getMonth()),
 			getYearStr(today.getFullYear())
@@ -176,13 +177,13 @@ class App extends Component<{}, IState> {
 	editTaskDOM = editTaskDOM;
 	deleteTaskDOM = deleteTaskDOM;
 
-	
+
 	get getDBDateStr() {
 		const { taskEditorDateStr } = this.state;
 		return (
 			taskEditorDateStr.includes("/")
-			? taskEditorDateStr.split("/")
-			: taskEditorDateStr.split("-")
+				? taskEditorDateStr.split("/")
+				: taskEditorDateStr.split("-")
 		).reverse().join("/");
 	}
 
@@ -246,12 +247,12 @@ class App extends Component<{}, IState> {
 				this.setState({
 					taskEditorTaskName: value || ""
 				});
-			break;
+				break;
 			case "taskEditorDateStr":
 				this.setState({
 					taskEditorDateStr: value || ""
 				});
-			break;
+				break;
 		}
 	}
 
@@ -312,6 +313,7 @@ class App extends Component<{}, IState> {
 			isAddNewTaskVisible,
 			isAboutScreen,
 			isTaskEditorVisible,
+			isCalendar,
 
 			// Other states
 			calendarDate,
@@ -321,6 +323,7 @@ class App extends Component<{}, IState> {
 		const dateStr = DBDateFormatter.format(calendarDate);
 		const todayTaskList = tasks.get(dateStr);
 
+		const isCalendarNavigatorVisible = isHome || isCalendar;
 		const isTaskListVisible = isHome || isEditMode;
 
 		return (
@@ -337,13 +340,17 @@ class App extends Component<{}, IState> {
 				}
 
 				{
+					isCalendarNavigatorVisible
+						? <CalendarNavigator
+							{...this.state}
+							setDate={this.setCalendarNavDate.bind(this)}
+						/>
+						: null
+				}
+
+				{
 					isTaskListVisible ? (
 						<>
-							<CalendarNavigator
-								{...this.state}
-								setDate={this.setCalendarNavDate.bind(this)}
-							/>
-
 							<TaskList
 								{...this.state}
 
@@ -375,7 +382,15 @@ class App extends Component<{}, IState> {
 							inputHandler={this.handleTaskEditorInput.bind(this)}
 							cancelButtonHandler={this.closeTaskEditorDOM.bind(this)}
 							confirmButtonHandler={this.saveTaskDOM.bind(this)}
-							/>
+						/>
+						: null
+				}
+
+				{
+					isCalendar
+						? <Calendar
+							{...this.state}
+						/>
 						: null
 				}
 

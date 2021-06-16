@@ -17,6 +17,10 @@
 
 	color: $dark;
 
+	&.on-calendar {
+		top: 15vh;
+	}
+
 	& > div {
 		box-sizing: border-box;
 		display: flex;
