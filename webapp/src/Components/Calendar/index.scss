@@ -56,6 +56,11 @@
 
 	box-shadow: 0 8px 16px $dark;
 
+	&.more-row {
+		grid-template-rows: repeat(6, 5.6vh);
+		padding: 2.8vh 4px;
+	}
+
 	.cell {
 		position: relative;
 

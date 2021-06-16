@@ -27,13 +27,7 @@ Today was focused on the task creation & editing logic.
 - Styling the task list in edit mode
 - Styling the task editor
 
-
-Upcoming:
-- Refactor DOM event handler names (DONE, 16-06-2021)
-
-- List Background image at home
-
-- Calendar
+- Calendar Screen
 	- Weekday labels
 	- Calendar dates
 	- Today indicator
@@ -41,17 +35,30 @@ Upcoming:
 	- Choose day interaction
 	- Daily task counter
 	- Check mark if the task counter is 100%
-	- Pressing the plus button immediately opens Task Editor with the selected date
 	- Styling the calendar
 	- Month & year navigator (on top of the screen)
+	- Daily motivation list (for prototype, cycle through 10 items depending on the day of the year)
+
+- Refactor DOM event handler names (DONE, 16-06-2021)
+
+Upcoming:
+- Review general localisations to use
+- Background image "List" at home
+
+- Calendar Screen
+	- Pressing the plus button immediately opens Task Editor with the selected date
 	- Go to specific month & year modal
 	- Styling the Go To month & year modal
-	- Daily motivation list (for prototype, cycle through 10 items depending on the day of the year)
-- Main Task List
-	- Rearrange task list items
 - About Screen
 	- Touching the name opens the author's website (also give a hint)
 	- Add: Created with ♥ by Hevanafa using Apache Cordova + React.js + TypeScript + SCSS
 	- Add PayPal donation link
-- Translatable strings
 - Donation link to PayPal
+
+
+Dream Features:
+- Main Task List
+	- Rearrange task list items
+- Language picker modal
+- Translatable strings
+

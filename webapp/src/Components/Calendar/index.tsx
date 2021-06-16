@@ -32,30 +32,40 @@ export default class Calendar extends React.Component<IProps> {
 		const { calendarDate } = this.props;
 
 		const monthLength = getMonthDays(calendarDate);
-		const rows = [...new Array(Math.ceil(monthLength / 7))].map(_ =>
+		let firstDayOfMonth = getFirstDayOfMonth(calendarDate).getDay();
+		let rowCount = Math.ceil((firstDayOfMonth + monthLength) / 7);
+		const rows = [...new Array(rowCount)].map(_ =>
 			[...new Array(7)].map(_ => 0)
 		);
 
-		// b: row
-		// a: column
-		for (let b = 0, a = getFirstDayOfMonth(calendarDate).getDay(), day = 1;
-			day <= monthLength;
-			day++) {
+		try {
+			// b: row
+			// a: column
+			for (let b = 0, a = firstDayOfMonth, day = 1;
+				day <= monthLength;
+				day++) {
 
-			rows[b][a] = day;
-			a++;
+				rows[b][a] = day;
+				a++;
 
-			if (a >= 7) {
-				b++;
-				a -= 7;
+				if (a >= 7) {
+					b++;
+					a -= 7;
+				}
 			}
+		} catch (ex) {
+			console.log(
+				"month " + (calendarDate.getMonth() + 1),
+				monthLength + " days"
+			);
+			console.error(ex);
 		}
 
 		return rows;
 	}
 
 	// componentDidMount() {
-		// console.log(this.getCalendarRows());
+	// console.log(this.getCalendarRows());
 	// }
 
 	render() {
@@ -75,12 +85,15 @@ export default class Calendar extends React.Component<IProps> {
 
 		const quoteOfTheDay = getQuoteOfTheDay();
 
+		const calendarRows = this.getCalendarRows();
+		const hasMoreRows = calendarRows.length > 5;
+
 		// console.log(calendarYearMonthStr);
 
 		return (
 			<>
 				<div className="long-press-hint">
-				Hint: Touch and hold month name to go to a specific month/year.
+					Hint: Touch and hold month name to go to a specific month/year.
 				</div>
 
 				<div className="weekday-container">
@@ -96,9 +109,12 @@ export default class Calendar extends React.Component<IProps> {
 					}
 				</div>
 
-				<div className="calendar-container">
+				<div className={
+					"calendar-container"
+					+ (hasMoreRows ? " more-row" : "")
+					}>
 					{
-						this.getCalendarRows().map(row =>
+						calendarRows.map(row =>
 							row.map((day, idx) => {
 								const chosenDate = calendarDate.getDate();
 								const isSelected = chosenDate === day;
@@ -138,7 +154,7 @@ export default class Calendar extends React.Component<IProps> {
 										{...{
 											"date-str": dateStr
 										}}
-										onClick={setDate}>
+										onClick={day !== 0 ? setDate : undefined}>
 										{
 											day
 												? (
@@ -200,13 +216,13 @@ export default class Calendar extends React.Component<IProps> {
 				<div className="daily-motivation">
 					Daily motivation<br />
 					{
-						typeof(quoteOfTheDay) === "string"
-						? `"${quoteOfTheDay}"`
-						: <>
-							{`"${quoteOfTheDay[0]}"`}
-							<br />
-							{`-${quoteOfTheDay[1]}`}
-						</>
+						typeof (quoteOfTheDay) === "string"
+							? `"${quoteOfTheDay}"`
+							: <>
+								{`"${quoteOfTheDay[0]}"`}
+								<br />
+								{`-${quoteOfTheDay[1]}`}
+							</>
 					}
 				</div>
 			</>

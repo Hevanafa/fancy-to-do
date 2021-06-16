@@ -3,8 +3,8 @@ import { getDayOfYear, getTodayDate } from "./commonDate";
 // Quote format:
 // > Single string if there's no author
 // > An array of 2 string elements:
-//     1. Quote
-//     2. Author
+//     [0] Quote
+//     [1] Author
 
 const quoteList = [
 	// About work
@@ -23,17 +23,23 @@ const quoteList = [
 	"Small steps in the right direction can turn out to be the biggest step of your life.",
 	"Whatever you decide to do, make sure it makes you happy.",
 	"Your best teacher is your last mistake.",
+	["You can, you should, and if you're brave enough to start, you will.", "Stephen King"],
 
 	// About mental health
 	"Friendly reminder that \"doing your best\" does not mean working yourself to the point of a mental breakdown.",
+	["Be patient with yourself.  Self-growth is tender; it's holy ground.  There's no greater investment.", "Stephen Covey"],
+	"Words are powerful.  Why not use them to lift someone up today instead of knocking them down?",
+
+	// About weightlifting
 	"You just can't beat the person who never gives up.",
 	"Pain is nothing compared to what it feels like to quit.",
-	["Be patient with yourself.  Self-growth is tender; it's holy ground.  There's no greater investment.", "Stephen Covey"],
 	"Just because you couldn't lift it yesterday, doesn't mean you can't lift it today.  Try again."
 ];
 
 const getQuoteOfTheDay = () =>
-	quoteList[getDayOfYear(getTodayDate()) % quoteList.length];
+	quoteList[
+		getDayOfYear(getTodayDate()) % quoteList.length
+	];
 
 export {
 	getQuoteOfTheDay
