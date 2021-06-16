@@ -40,6 +40,9 @@ Today was focused on the task creation & editing logic.
 	- Daily motivation list (for prototype, cycle through 10 items depending on the day of the year)
 
 - Refactor DOM event handler names (DONE, 16-06-2021)
+- About Screen
+	- Touching the name opens the author's website (DONE, with social media links)
+
 
 Upcoming:
 - Review general localisations to use
@@ -50,7 +53,6 @@ Upcoming:
 	- Go to specific month & year modal
 	- Styling the Go To month & year modal
 - About Screen
-	- Touching the name opens the author's website (also give a hint)
 	- Add: Created with ♥ by Hevanafa using Apache Cordova + React.js + TypeScript + SCSS
 	- Add PayPal donation link
 - Donation link to PayPal

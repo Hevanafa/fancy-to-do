@@ -16,6 +16,18 @@
 		font-family: Roboto-Light;
 		font-size: 3vh;
 		color: $dark;
+
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		button {
+			margin: 0 2vw;
+		}
+
+		img {
+			height: 4vh;
+		}
 	}
 
 	.about-text-smaller {

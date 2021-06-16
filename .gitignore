@@ -8,3 +8,4 @@ node_modules/
 /platforms/
 www/**/*.*
 yarn.lock
+package-lock.json
