@@ -93,12 +93,32 @@ class App extends Component<{}, IState> {
 			calendarDate: getTodayDate(),
 			isGoToMonthModalVisible: false
 		};
+
+		this.bindCommonFunctions();
 	}
 
 	// onDeviceReady() {
 	// 	const nav = navigator as any;
 	// 	alert(nav.notification);
 	// }
+
+	bindCommonFunctions() {
+		this.addNewTaskToday = this.addNewTaskToday.bind(this)
+		this.addNewTaskTomorrow = this.addNewTaskTomorrow.bind(this);
+		this.addNewTaskCustom = this.addNewTaskCustom.bind(this);
+		this.hideNewTaskMenu = this.hideNewTaskMenu.bind(this);
+		this.setCalendarDateDOM = this.setCalendarDateDOM.bind(this);
+		this.showGoToMonthModal = this.showGoToMonthModal.bind(this);
+		this.checkTaskDOM = this.checkTaskDOM.bind(this);
+		this.editTaskDOM = this.editTaskDOM.bind(this);
+		this.deleteTaskDOM = this.deleteTaskDOM.bind(this);
+
+		this.handleTaskEditorInput = this.handleTaskEditorInput.bind(this);
+		this.closeTaskEditorDOM = this.closeTaskEditorDOM.bind(this);
+		this.saveTaskDOM = this.saveTaskDOM.bind(this);
+		this.hideGoToMonthModal = this.hideGoToMonthModal.bind(this);
+		this.bottomMenuClickDOM = this.bottomMenuClickDOM.bind(this);
+	}
 
 	testDateModule() {
 		const today = new Date();
@@ -310,10 +330,10 @@ class App extends Component<{}, IState> {
 					isAddNewTaskVisible ? (
 						<AddNewTaskMenu
 							{...this.state}
-							addNewTaskToday={this.addNewTaskToday.bind(this)}
-							addNewTaskTomorrow={this.addNewTaskTomorrow.bind(this)}
-							addNewTaskCustom={this.addNewTaskCustom.bind(this)}
-							hideNewTaskMenu={this.hideNewTaskMenu.bind(this)}
+							addNewTaskToday={this.addNewTaskToday}
+							addNewTaskTomorrow={this.addNewTaskTomorrow}
+							addNewTaskCustom={this.addNewTaskCustom}
+							hideNewTaskMenu={this.hideNewTaskMenu}
 						/>
 					) : null
 				}
@@ -322,8 +342,8 @@ class App extends Component<{}, IState> {
 					isCalendarNavigatorVisible
 						? <CalendarNavigator
 							{...this.state}
-							setDate={this.setCalendarDateDOM.bind(this)}
-							showGoToMonthModal={this.showGoToMonthModal.bind(this)}
+							setDate={this.setCalendarDateDOM}
+							showGoToMonthModal={this.showGoToMonthModal}
 						/>
 						: null
 				}
@@ -334,9 +354,9 @@ class App extends Component<{}, IState> {
 							<TaskList
 								{...this.state}
 
-								checkTaskDOM={this.checkTaskDOM.bind(this)}
-								editTaskDOM={this.editTaskDOM.bind(this)}
-								deleteTaskDOM={this.deleteTaskDOM.bind(this)}
+								checkTaskDOM={this.checkTaskDOM}
+								editTaskDOM={this.editTaskDOM}
+								deleteTaskDOM={this.deleteTaskDOM}
 							/>
 
 							{
@@ -358,7 +378,7 @@ class App extends Component<{}, IState> {
 					isCalendar
 						? <Calendar
 							{...this.state}
-							setDate={this.setCalendarDateDOM.bind(this)}
+							setDate={this.setCalendarDateDOM}
 						/>
 						: null
 				}
@@ -368,9 +388,9 @@ class App extends Component<{}, IState> {
 						? <TaskEditorModal
 							{...this.state}
 
-							inputHandler={this.handleTaskEditorInput.bind(this)}
-							cancelButtonHandler={this.closeTaskEditorDOM.bind(this)}
-							confirmButtonHandler={this.saveTaskDOM.bind(this)}
+							inputHandler={this.handleTaskEditorInput}
+							cancelButtonHandler={this.closeTaskEditorDOM}
+							confirmButtonHandler={this.saveTaskDOM}
 						/>
 						: null
 				}
@@ -380,15 +400,15 @@ class App extends Component<{}, IState> {
 						? <GoToMonthModal
 							{...this.state}
 
-							cancelButtonHandler={this.hideGoToMonthModal.bind(this)}
-							confirmButtonHandler={this.setCalendarDateDOM.bind(this)}
+							cancelButtonHandler={this.hideGoToMonthModal}
+							confirmButtonHandler={this.setCalendarDateDOM}
 						/>
 						: null
 				}
 
 				<BottomMenu
 					{... this.state}
-					menuHandler={this.bottomMenuClickDOM.bind(this)}
+					menuHandler={this.bottomMenuClickDOM}
 				/>
 			</div>
 		)

@@ -22,9 +22,18 @@ interface IProps {
 	showGoToMonthModal: () => void;
 }
 export default class CalendarNavigator extends React.Component<IProps> {
+	constructor(props: IProps) {
+		super(props);
+		this.bindCommonFunctions();
+	}
+
+	bindCommonFunctions() {
+		this.handleTouchStart = this.handleTouchStart.bind(this);
+		this.handleTouchEnd = this.handleTouchEnd.bind(this);
+	}
+
 	dayDiff = () =>
 		Math.ceil((this.props.calendarDate.getTime() - new Date().getTime()) / 86400000);
-
 
 	isYesterday = () =>
 		this.dayDiff() === -1;
@@ -34,7 +43,6 @@ export default class CalendarNavigator extends React.Component<IProps> {
 
 	isTomorrow = () =>
 		this.dayDiff() === 1;
-
 
 	renderOnHome() {
 		const {
@@ -138,8 +146,8 @@ export default class CalendarNavigator extends React.Component<IProps> {
 				</div>
 				<div
 					className={thisMonthClassName}
-					onTouchStart={this.handleTouchStart.bind(this)}
-					onTouchEnd={this.handleTouchEnd.bind(this)}
+					onTouchStart={this.handleTouchStart}
+					onTouchEnd={this.handleTouchEnd}
 					>
 					{thisMonthStr}
 				</div>

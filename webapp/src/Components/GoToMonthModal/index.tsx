@@ -30,6 +30,14 @@ export default class GoToMonthModal extends React.Component<IProps, IState> {
 
 			isMonthCoverVisible: true
 		};
+
+		this.bindCommonFunctions();
+	}
+
+	bindCommonFunctions() {
+		this.handleInput = this.handleInput.bind(this);
+		this.hideMonthCover = this.hideMonthCover.bind(this);
+		this.showMonthCover = this.showMonthCover.bind(this);
 	}
 
 	hideMonthCover() {
@@ -90,10 +98,10 @@ export default class GoToMonthModal extends React.Component<IProps, IState> {
 								value={month}
 								min={1}
 								max={12}
-								onChange={this.handleInput.bind(this)}
+								onChange={this.handleInput}
 
-								onFocus={this.hideMonthCover.bind(this)}
-								onBlur={this.showMonthCover.bind(this)}
+								onFocus={this.hideMonthCover}
+								onBlur={this.showMonthCover}
 							/>
 
 							{
@@ -112,7 +120,7 @@ export default class GoToMonthModal extends React.Component<IProps, IState> {
 								placeholder="Year"
 								value={year}
 								max={9999}
-								onChange={this.handleInput.bind(this)}
+								onChange={this.handleInput}
 							/>
 						</div>
 					</div>

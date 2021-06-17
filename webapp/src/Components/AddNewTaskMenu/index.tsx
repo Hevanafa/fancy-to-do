@@ -1,4 +1,5 @@
 import React from "react";
+import { hideNewTaskMenu } from "../../modules/AddNewTaskMethods";
 import { GenericOnClickEvent, getImgSrc } from "../../modules/generics";
 
 import "./index.scss";
@@ -15,6 +16,12 @@ interface IProps {
 	hideNewTaskMenu: GenericOnClickEvent;
 }
 export default class AddNewTaskMenu extends React.Component<IProps, IState> {
+	constructor(props: IProps) {
+		super(props);
+
+		this.hide = this.hide.bind(this);
+	}
+
 	state = {
 		hasVisibilityClass: false
 	}
@@ -26,7 +33,7 @@ export default class AddNewTaskMenu extends React.Component<IProps, IState> {
 			});
 		}, 100);
 	}
-
+	
 	hide(e: React.MouseEvent) {
 		this.setState({
 			hasVisibilityClass: false
@@ -51,7 +58,7 @@ export default class AddNewTaskMenu extends React.Component<IProps, IState> {
 			<>
 				<div
 					className="invisible-overlay"
-					onClick={this.hide.bind(this)}></div>
+					onClick={this.hide}></div>
 
 				<div className={this.getClassList()}>
 					<div className="heading">
