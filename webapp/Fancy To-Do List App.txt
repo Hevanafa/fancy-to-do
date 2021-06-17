@@ -53,12 +53,14 @@ Today was focused on the task creation & editing logic.
 	- Pressing the plus button immediately opens Task Editor with the selected date
 	- Go to specific month & year modal
 	- Styling the Go To month & year modal
+- Bug: Overflowing calendar navigator name
+- Review general localisations to use
 
 
 Upcoming:
-- Bug: Overflowing calendar navigator name
-- Review general localisations to use
 - Optimise function binds
+- Optimise overall resource size (especially images)
+- Create the app icon
 
 - About Screen (Optional)
 	- Add: Created with ♥ by Hevanafa using Apache Cordova + React.js + TypeScript + SCSS

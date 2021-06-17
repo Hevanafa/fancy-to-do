@@ -1,4 +1,4 @@
-const defaultLocalisation = "en-UK";
+const defaultLocalisation = "en-GB";
 const defaultDBLocalisation = "zh-TW";
 
 const DBDateFormatter = new Intl.DateTimeFormat(defaultDBLocalisation, {
