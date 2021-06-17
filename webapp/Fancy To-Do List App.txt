@@ -55,11 +55,11 @@ Today was focused on the task creation & editing logic.
 	- Styling the Go To month & year modal
 - Bug: Overflowing calendar navigator name
 - Review general localisations to use
+- Optimise function binds
+- Optimise overall resource size (especially images)
 
 
 Upcoming:
-- Optimise function binds
-- Optimise overall resource size (especially images)
 - Create the app icon
 
 - About Screen (Optional)
