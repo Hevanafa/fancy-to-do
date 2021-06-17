@@ -1,4 +1,5 @@
 import React from "react";
+import { getMonthName } from "../../modules/commonDate";
 import { GenericOnClickEvent, getImgSrc } from "../../modules/generics";
 
 import "../../styles/modals.scss";
@@ -13,6 +14,7 @@ interface IProps {
 interface IState {
 	month: number;
 	year: number;
+	isMonthCoverVisible: boolean;
 }
 export default class GoToMonthModal extends React.Component<IProps, IState> {
 	constructor(props: IProps) {
@@ -24,8 +26,22 @@ export default class GoToMonthModal extends React.Component<IProps, IState> {
 
 		this.state = {
 			month: calendarDate.getMonth() + 1,
-			year: calendarDate.getFullYear()
+			year: calendarDate.getFullYear(),
+
+			isMonthCoverVisible: true
 		};
+	}
+
+	hideMonthCover() {
+		this.setState({
+			isMonthCoverVisible: false
+		});
+	}
+
+	showMonthCover() {
+		this.setState({
+			isMonthCoverVisible: true
+		});
 	}
 
 	handleInput(e: React.FormEvent<HTMLInputElement>) {
@@ -53,10 +69,13 @@ export default class GoToMonthModal extends React.Component<IProps, IState> {
 
 		const {
 			month,
-			year
+			year,
+			isMonthCoverVisible
 		} = this.state;
 
-		const dateStr = `${year}/${month}/1`;
+		const dateStr = `${year}/${month}/1`,
+			monthName = getMonthName(month - 1);
+
 
 		return (
 			<>
@@ -73,7 +92,18 @@ export default class GoToMonthModal extends React.Component<IProps, IState> {
 								min={1}
 								max={12}
 								onChange={this.handleInput.bind(this)}
+
+								onFocus={this.hideMonthCover.bind(this)}
+								onBlur={this.showMonthCover.bind(this)}
 							/>
+
+							{
+								isMonthCoverVisible
+									? <div className="month-cover">
+										{monthName}
+									</div>
+									: null
+							}
 						</div>
 
 						<div className="input-group">
@@ -82,8 +112,7 @@ export default class GoToMonthModal extends React.Component<IProps, IState> {
 								name="year"
 								placeholder="Year"
 								value={year}
-								min={2000}
-								max={2022}
+								max={9999}
 								onChange={this.handleInput.bind(this)}
 							/>
 						</div>

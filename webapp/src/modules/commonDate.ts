@@ -1,17 +1,20 @@
-const DBDateFormatter = new Intl.DateTimeFormat("zh-TW", {
+const defaultLocalisation = "en-UK";
+const defaultDBLocalisation = "zh-TW";
+
+const DBDateFormatter = new Intl.DateTimeFormat(defaultDBLocalisation, {
 	year: "numeric",
 	month: "2-digit",
 	day: "2-digit"
 });
 
-const NormalDateFormatter = new Intl.DateTimeFormat("en-UK", {
+const NormalDateFormatter = new Intl.DateTimeFormat(defaultLocalisation, {
 	year: "numeric",
 	month: "2-digit",
 	day: "2-digit"
 });
 
 const getReadableDate = (date: Date) =>
-	Intl.DateTimeFormat("en-UK", {
+	Intl.DateTimeFormat(defaultLocalisation, {
 		year: "numeric",
 		month: "short",
 		day: "numeric"
@@ -96,7 +99,7 @@ const getDayName = (day: number, short = true) =>
 	day < 0 || day > 6
 		? `Wrong day: ${day}`
 		: new Date(2020, 10, day % 7 + 1)
-			.toLocaleString("zh-TW", {
+			.toLocaleString(defaultLocalisation, {
 				weekday: short ? "short" : "long"
 			});
 
@@ -109,12 +112,12 @@ const getMonthName = (month: number, short = true) =>
 	month < 0 || month > 11
 		? `Wrong month: ${month}`
 		: new Date(2021, month, 1)
-			.toLocaleString("zh-TW", {
+			.toLocaleString(defaultLocalisation, {
 				month: short ? "short" : "long"
 			});
 
 const getYearStr = (year: number) =>
-	new Intl.NumberFormat("zh-TW").format(year);
+	new Intl.NumberFormat(defaultLocalisation).format(year);
 
 /**
  * Basic date string format validator.
@@ -124,6 +127,9 @@ const validateDateFormat = (dateStr: string) =>
 	!!dateStr.match(/^(\d{4}[-/]\d{1,2}[-/]\d{1,2}|\d{1,2}[-/]\d{1,2}[-/]\d{4})$/);
 
 export {
+	defaultLocalisation,
+	defaultDBLocalisation,
+
 	DBDateFormatter,
 	NormalDateFormatter,
 	getReadableDate,

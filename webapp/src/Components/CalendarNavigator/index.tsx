@@ -2,6 +2,7 @@ import React from "react";
 
 import {
 	DBDateFormatter,
+	defaultLocalisation,
 	getTodayDate,
 	getTomorrowDate,
 	getYesterdayDate
@@ -88,13 +89,13 @@ export default class CalendarNavigator extends React.Component<IProps> {
 	}
 
 	getMonthStr = (date: Date) =>
-		Intl.DateTimeFormat("zh-TW", {
+		Intl.DateTimeFormat(defaultLocalisation, {
 			year: date.getFullYear() !== this.props.calendarDate.getFullYear() ? "numeric" : undefined,
 			month: "long"
 		}).format(date);
 
 	getThisMonthStr = () =>
-		Intl.DateTimeFormat("zh-TW", {
+		Intl.DateTimeFormat(defaultLocalisation, {
 			year: "numeric",
 			month: "long"
 		}).format(this.props.calendarDate);

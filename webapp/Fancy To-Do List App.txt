@@ -48,12 +48,12 @@ Today was focused on the task creation & editing logic.
 
 17-06-2021
 - Warning message when pressing the plus button if not either in home or in calendar views (DONE)
+- Background image "List" at home
 
 
 Upcoming:
 - Review general localisations to use
 - Optimise function binds
-- Background image "List" at home
 
 - Calendar Screen
 	- Pressing the plus button immediately opens Task Editor with the selected date
@@ -68,4 +68,3 @@ Dream Features:
 	- Rearrange task list items
 - Language picker modal
 - Translatable strings
-

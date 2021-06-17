@@ -4,6 +4,7 @@ import { ITaskItem } from "../../App";
 
 import {
 	DBDateFormatter,
+	defaultDBLocalisation,
 	getDayName,
 	getFirstDayOfMonth,
 	getMonthDays,
@@ -31,12 +32,13 @@ export default class Calendar extends React.Component<IProps> {
 	getCalendarRows() {
 		const { calendarDate } = this.props;
 
-		const monthLength = getMonthDays(calendarDate);
-		let firstDayOfMonth = getFirstDayOfMonth(calendarDate).getDay();
-		let rowCount = Math.ceil((firstDayOfMonth + monthLength) / 7);
-		const rows = [...new Array(rowCount)].map(_ =>
-			[...new Array(7)].map(_ => 0)
-		);
+		const monthLength = getMonthDays(calendarDate),
+			firstDayOfMonth = getFirstDayOfMonth(calendarDate).getDay(),
+			rowCount = Math.ceil((firstDayOfMonth + monthLength) / 7),
+
+			rows = [...new Array(rowCount)].map(_ =>
+				[...new Array(7)].map(_ => 0)
+			);
 
 		try {
 			// b: row
@@ -78,7 +80,7 @@ export default class Calendar extends React.Component<IProps> {
 		const todayDate = getTodayDate(),
 			tomorrowDate = getTomorrowDate();
 
-		const calendarYearMonthStr = Intl.DateTimeFormat("zh-TW", {
+		const calendarYearMonthStr = Intl.DateTimeFormat(defaultDBLocalisation, {
 			year: "numeric",
 			month: "2-digit"
 		}).format(calendarDate);
@@ -112,7 +114,7 @@ export default class Calendar extends React.Component<IProps> {
 				<div className={
 					"calendar-container"
 					+ (hasMoreRows ? " more-row" : "")
-					}>
+				}>
 					{
 						calendarRows.map(row =>
 							row.map((day, idx) => {
