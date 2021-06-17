@@ -58,10 +58,9 @@ Today was focused on the task creation & editing logic.
 - Optimise function binds
 - Optimise overall resource size (especially images)
 - Added a script to remove source maps on release build
-
-Upcoming:
 - Create the app icon
 
+Upcoming:
 - About Screen (Optional)
 	- Add: Created with ♥ by Hevanafa using Apache Cordova + React.js + TypeScript + SCSS
 
@@ -71,3 +70,5 @@ Dream Features:
 	- Rearrange task list items
 - Language picker modal
 - Translatable strings
+- Improve task visibility especially on the future dates:
+	Something like, "You have 1 task on 23/06/2021, touch here to jump on the date"
