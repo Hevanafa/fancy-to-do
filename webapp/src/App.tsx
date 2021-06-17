@@ -39,6 +39,7 @@ import {
 } from "./modules/TaskListMethods";
 
 import "./styles/App.scss";
+import { activateBottomMenu, bottomMenuClickDOM } from "./modules/BottomMenuMethods";
 
 export interface ITaskItem {
 	label: string;
@@ -277,62 +278,9 @@ class App extends Component<{}, IState> {
 		}
 	}
 
-	activateBottomMenu(itemIdx: number) {
-		if (itemIdx === 2) {
-			if (this.state.isAboutScreen) {
-				alert("You should be either in home, edit mode, or calendar view.");
-				return;
-			}
-
-			// Todo: immediately create a new task when the user focuses on the calendar
-
-			// Don't reset the other modes when pressing the "add new task" button
-			this.setState({
-				isAddNewTaskVisible: !this.state.isAddNewTaskVisible
-			});
-
-			return;
-		}
-
-		this.setState({
-			isHome: false,
-			isEditMode: false,
-			isCalendar: false,
-			isAboutScreen: false
-		}, () => {
-			switch (itemIdx) {
-				case 0:
-					this.setState({
-						isEditMode: true
-					});
-					break;
-
-				case 1:
-					this.setState({
-						isHome: true
-					});
-					break;
-
-				case 3:
-					this.setState({
-						isCalendar: true
-					});
-					break;
-
-				case 4:
-					this.setState({
-						isAboutScreen: true
-					});
-					break;
-			}
-		});
-	}
-
-	// Bottom Menu
-	bottomMenuClickDOM(e: React.MouseEvent) {
-		const idx = Number(e.currentTarget.getAttribute("idx"));
-		this.activateBottomMenu(idx);
-	}
+	// BottomMenuMethods
+	activateBottomMenu = activateBottomMenu;
+	bottomMenuClickDOM = bottomMenuClickDOM;
 
 	render() {
 		const {
@@ -350,11 +298,11 @@ class App extends Component<{}, IState> {
 			tasks
 		} = this.state;
 
-		const dateStr = DBDateFormatter.format(calendarDate);
-		const todayTaskList = tasks.get(dateStr);
+		const dateStr = DBDateFormatter.format(calendarDate),
+			todayTaskList = tasks.get(dateStr),
 
-		const isCalendarNavigatorVisible = isHome || isEditMode || isCalendar;
-		const isTaskListVisible = isHome || isEditMode;
+			isCalendarNavigatorVisible = isHome || isEditMode || isCalendar,
+			isTaskListVisible = isHome || isEditMode;
 
 		return (
 			<div className="app">

@@ -13,6 +13,7 @@ import "./index.scss";
 
 interface IProps {
 	isHome: boolean;
+	isEditMode: boolean;
 	isCalendar: boolean;
 	calendarDate: Date;
 
@@ -150,11 +151,12 @@ export default class CalendarNavigator extends React.Component<IProps> {
 	render() {
 		const {
 			isHome,
+			isEditMode,
 			isCalendar
 		} = this.props;
 
 		return (
-			isHome
+			isHome || isEditMode
 				? this.renderOnHome()
 				: isCalendar
 					? this.renderOnCalendar()

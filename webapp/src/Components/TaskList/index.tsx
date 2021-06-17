@@ -35,6 +35,11 @@ export default class TaskList extends React.Component<IProps> {
 
 		return (
 			<div className="task-list-container">
+				<img
+					src={getImgSrc("/home/list-bg.png")}
+					className="list-bg"
+					alt="list" />
+
 				<div className="heading">
 					{getReadableDate(calendarDate)}
 				</div>
