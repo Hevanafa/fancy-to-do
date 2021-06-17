@@ -31,14 +31,19 @@ export default class TaskList extends React.Component<IProps> {
 		} = this.props;
 
 		const dateStr = DBDateFormatter.format(calendarDate),
-			taskList = tasks.get(dateStr);
+			taskList = tasks.get(dateStr),
+			thereIsTask = taskList && taskList.length > 0;
 
 		return (
 			<div className="task-list-container">
-				<img
-					src={getImgSrc("/home/list-bg.png")}
-					className="list-bg"
-					alt="list" />
+				{
+					thereIsTask
+						? <img
+							src={getImgSrc("/home/list-bg.png")}
+							className="list-bg"
+							alt="list" />
+						: null
+				}
 
 				<div className="heading">
 					{getReadableDate(calendarDate)}
@@ -46,8 +51,8 @@ export default class TaskList extends React.Component<IProps> {
 
 				<div className="scrollable-area">
 					{
-						taskList && taskList.length > 0
-							? taskList.map((item, idx) => {
+						thereIsTask
+							? taskList?.map((item, idx) => {
 								const hasLongText = item.label.length > 20;
 								const className = "list-item"
 									+ (item.checked ? " checked" : "")

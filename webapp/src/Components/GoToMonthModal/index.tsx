@@ -74,8 +74,7 @@ export default class GoToMonthModal extends React.Component<IProps, IState> {
 		} = this.state;
 
 		const dateStr = `${year}/${month}/1`,
-			monthName = getMonthName(month - 1);
-
+			monthName = getMonthName(month - 1, false);
 
 		return (
 			<>

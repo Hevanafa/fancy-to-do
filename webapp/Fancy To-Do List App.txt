@@ -49,16 +49,17 @@ Today was focused on the task creation & editing logic.
 17-06-2021
 - Warning message when pressing the plus button if not either in home or in calendar views (DONE)
 - Background image "List" at home
-
-
-Upcoming:
-- Review general localisations to use
-- Optimise function binds
-
 - Calendar Screen
 	- Pressing the plus button immediately opens Task Editor with the selected date
 	- Go to specific month & year modal
 	- Styling the Go To month & year modal
+
+
+Upcoming:
+- Bug: Overflowing calendar navigator name
+- Review general localisations to use
+- Optimise function binds
+
 - About Screen (Optional)
 	- Add: Created with ♥ by Hevanafa using Apache Cordova + React.js + TypeScript + SCSS
 

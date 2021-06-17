@@ -119,12 +119,17 @@ export default class CalendarNavigator extends React.Component<IProps> {
 		);
 
 		const lastMonthStr = this.getMonthStr(prevMonth),
-		 thisMonthStr = this.getThisMonthStr(),
-		 nextMonthStr = this.getMonthStr(nextMonth);
+			thisMonthStr = this.getThisMonthStr(),
+			nextMonthStr = this.getMonthStr(nextMonth),
+			
+			lastMonthClassName = lastMonthStr.length > 10 ? "long-month" : undefined,
+			thisMonthClassName = "active" + (thisMonthStr.length > 10 ? " long-month" : undefined),
+			nextMonthClassName = nextMonthStr.length > 10 ? "long-month" : undefined;
 
 		return (
 			<div className="calendar-nav-container on-calendar">
 				<div
+					className={lastMonthClassName}
 					{...{
 						"date-str": DBDateFormatter.format(prevMonth)
 					}}
@@ -132,13 +137,14 @@ export default class CalendarNavigator extends React.Component<IProps> {
 					{lastMonthStr}
 				</div>
 				<div
-					className="active"
+					className={thisMonthClassName}
 					onTouchStart={this.handleTouchStart.bind(this)}
 					onTouchEnd={this.handleTouchEnd.bind(this)}
 					>
 					{thisMonthStr}
 				</div>
 				<div
+					className={nextMonthClassName}
 					{...{
 						"date-str": DBDateFormatter.format(nextMonth)
 					}}
