@@ -1,0 +1,9 @@
+1. yarn install
+2. cordova platform add android
+3. cordova build android
+
+You'll find your APK here:
+\fancy-to-do\platforms\android\app\build\outputs\apk\debug
+
+In case the app fails to be installed, remove the drawable folders inside platforms:
+\fancy-to-do\platforms\android\app\src\main\res

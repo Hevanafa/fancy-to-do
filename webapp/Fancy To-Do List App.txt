@@ -57,7 +57,7 @@ Today was focused on the task creation & editing logic.
 - Review general localisations to use
 - Optimise function binds
 - Optimise overall resource size (especially images)
-
+- Added a script to remove source maps on release build
 
 Upcoming:
 - Create the app icon

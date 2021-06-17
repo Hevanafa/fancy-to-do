@@ -1,5 +1,4 @@
 import React from "react";
-import { hideNewTaskMenu } from "../../modules/AddNewTaskMethods";
 import { GenericOnClickEvent, getImgSrc } from "../../modules/generics";
 
 import "./index.scss";
