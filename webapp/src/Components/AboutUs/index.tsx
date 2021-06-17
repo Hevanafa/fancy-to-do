@@ -28,7 +28,7 @@ export default class AboutUs extends React.Component {
 				</div>
 
 				<div className="about-label">
-					App idea &amp; Wireframe
+					App idea, Wireframe &amp; App Icon
 				</div>
 				<div className="about-text">
 					<span>T3CH_Kitsu</span>
@@ -83,7 +83,7 @@ export default class AboutUs extends React.Component {
 					{
 						isDevBuild
 							? "Development Build"
-							: null
+							: "Production Build"
 					}<br />
 					Version {versionStr}<br />
 					Last update: {getReadableDate(lastUpdate)}
