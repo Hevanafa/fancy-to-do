@@ -123,7 +123,7 @@ export default class CalendarNavigator extends React.Component<IProps> {
 			nextMonthStr = this.getMonthStr(nextMonth),
 			
 			lastMonthClassName = lastMonthStr.length > 10 ? "long-month" : undefined,
-			thisMonthClassName = "active" + (thisMonthStr.length > 10 ? " long-month" : undefined),
+			thisMonthClassName = "active" + (thisMonthStr.length > 10 ? " long-month" : ""),
 			nextMonthClassName = nextMonthStr.length > 10 ? "long-month" : undefined;
 
 		return (
