@@ -7,6 +7,8 @@ import CalendarNavigator from "./Components/CalendarNavigator";
 import EmptyTaskMessage from "./Components/EmptyTaskMessage";
 import AddNewTaskMenu from "./Components/AddNewTaskMenu";
 import TaskEditorModal from "./Components/TaskEditorModal";
+import Calendar from "./Components/Calendar";
+import GoToMonthModal from "./Components/GoToMonthModal";
 
 import {
 	DBDateFormatter,
@@ -21,6 +23,7 @@ import {
 import {
 	addNewTaskToday,
 	addNewTaskTomorrow,
+	addNewTaskCustom,
 	hideNewTaskMenu
 } from "./modules/AddNewTaskMethods";
 
@@ -29,9 +32,13 @@ import {
 	saveTaskData
 } from "./modules/StorageMethods";
 
+import {
+	checkTaskDOM,
+	deleteTaskDOM,
+	editTaskDOM
+} from "./modules/TaskListMethods";
+
 import "./styles/App.scss";
-import { checkTaskDOM, deleteTaskDOM, editTaskDOM } from "./modules/TaskListMethods";
-import Calendar from "./Components/Calendar";
 
 export interface ITaskItem {
 	label: string;
@@ -53,6 +60,7 @@ interface IState extends IBottomMenuProps {
 
 	// Calendar
 	calendarDate: Date;
+	isGoToMonthModalVisible: boolean;
 }
 class App extends Component<{}, IState> {
 	constructor(props: any) {
@@ -81,7 +89,8 @@ class App extends Component<{}, IState> {
 			taskEditorItemIdx: -1,
 
 			// Calendar
-			calendarDate: getTodayDate()
+			calendarDate: getTodayDate(),
+			isGoToMonthModalVisible: false
 		};
 	}
 
@@ -109,6 +118,7 @@ class App extends Component<{}, IState> {
 	// AddNewTaskMethods
 	addNewTaskToday = addNewTaskToday;
 	addNewTaskTomorrow = addNewTaskTomorrow;
+	addNewTaskCustom = addNewTaskCustom;
 	hideNewTaskMenu = hideNewTaskMenu;
 
 	// StorageMethods
@@ -128,6 +138,18 @@ class App extends Component<{}, IState> {
 
 		this.setState({
 			calendarDate: new Date(dateStr)
+		});
+	}
+
+	showGoToMonthModal() {
+		this.setState({
+			isGoToMonthModalVisible: true
+		});
+	}
+
+	hideGoToMonthModal() {
+		this.setState({
+			isGoToMonthModalVisible: false
 		});
 	}
 
@@ -237,8 +259,7 @@ class App extends Component<{}, IState> {
 	}
 
 	handleTaskEditorInput(e: React.FormEvent<HTMLInputElement>) {
-		const name = e.currentTarget.name,
-			value = e.currentTarget.value;
+		const { name, value } = e.currentTarget;
 
 		// console.log(name + ": " + value);
 
@@ -256,13 +277,15 @@ class App extends Component<{}, IState> {
 		}
 	}
 
-	// Bottom Menu
-	bottomMenuHandler(e: React.MouseEvent) {
-		const idx = Number(e.currentTarget.getAttribute("idx"));
+	activateBottomMenu(itemIdx: number) {
+		if (itemIdx === 2) {
+			if (this.state.isAboutScreen) {
+				alert("You should be either in home, edit mode, or calendar view.");
+				return;
+			}
 
-		console.log("bMH idx", idx);
+			// Todo: immediately create a new task when the user focuses on the calendar
 
-		if (idx === 2) {
 			// Don't reset the other modes when pressing the "add new task" button
 			this.setState({
 				isAddNewTaskVisible: !this.state.isAddNewTaskVisible
@@ -277,7 +300,7 @@ class App extends Component<{}, IState> {
 			isCalendar: false,
 			isAboutScreen: false
 		}, () => {
-			switch (idx) {
+			switch (itemIdx) {
 				case 0:
 					this.setState({
 						isEditMode: true
@@ -305,6 +328,12 @@ class App extends Component<{}, IState> {
 		});
 	}
 
+	// Bottom Menu
+	bottomMenuClickDOM(e: React.MouseEvent) {
+		const idx = Number(e.currentTarget.getAttribute("idx"));
+		this.activateBottomMenu(idx);
+	}
+
 	render() {
 		const {
 			// Screens
@@ -314,6 +343,7 @@ class App extends Component<{}, IState> {
 			isAboutScreen,
 			isTaskEditorVisible,
 			isCalendar,
+			isGoToMonthModalVisible,
 
 			// Other states
 			calendarDate,
@@ -323,7 +353,7 @@ class App extends Component<{}, IState> {
 		const dateStr = DBDateFormatter.format(calendarDate);
 		const todayTaskList = tasks.get(dateStr);
 
-		const isCalendarNavigatorVisible = isHome || isCalendar;
+		const isCalendarNavigatorVisible = isHome || isEditMode || isCalendar;
 		const isTaskListVisible = isHome || isEditMode;
 
 		return (
@@ -334,6 +364,7 @@ class App extends Component<{}, IState> {
 							{...this.state}
 							addNewTaskToday={this.addNewTaskToday.bind(this)}
 							addNewTaskTomorrow={this.addNewTaskTomorrow.bind(this)}
+							addNewTaskCustom={this.addNewTaskCustom.bind(this)}
 							hideNewTaskMenu={this.hideNewTaskMenu.bind(this)}
 						/>
 					) : null
@@ -344,6 +375,7 @@ class App extends Component<{}, IState> {
 						? <CalendarNavigator
 							{...this.state}
 							setDate={this.setCalendarDateDOM.bind(this)}
+							showGoToMonthModal={this.showGoToMonthModal.bind(this)}
 						/>
 						: null
 				}
@@ -375,6 +407,15 @@ class App extends Component<{}, IState> {
 				}
 
 				{
+					isCalendar
+						? <Calendar
+							{...this.state}
+							setDate={this.setCalendarDateDOM.bind(this)}
+						/>
+						: null
+				}
+
+				{
 					isTaskEditorVisible
 						? <TaskEditorModal
 							{...this.state}
@@ -387,17 +428,19 @@ class App extends Component<{}, IState> {
 				}
 
 				{
-					isCalendar
-						? <Calendar
+					isGoToMonthModalVisible
+						? <GoToMonthModal
 							{...this.state}
-							setDate={this.setCalendarDateDOM.bind(this)}
+
+							cancelButtonHandler={this.hideGoToMonthModal.bind(this)}
+							confirmButtonHandler={this.setCalendarDateDOM.bind(this)}
 						/>
 						: null
 				}
 
 				<BottomMenu
 					{... this.state}
-					menuHandler={this.bottomMenuHandler.bind(this)}
+					menuHandler={this.bottomMenuClickDOM.bind(this)}
 				/>
 			</div>
 		)

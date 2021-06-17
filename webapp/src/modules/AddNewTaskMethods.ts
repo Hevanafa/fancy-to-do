@@ -42,6 +42,18 @@ function addNewTaskTomorrow(this: App) {
 	});
 }
 
+function addNewTaskCustom(this: App) {
+	this.setState({
+		isAddNewTaskVisible: false,
+	}, () => {
+		this.activateBottomMenu(3);
+	});
+
+	window.setTimeout(() => {
+		alert("Custom date: Pick a date and then press the plus button.");
+	}, 100);
+}
+
 function pickADate(this: App) {
 	this.setState({
 		isCalendar: true,
@@ -54,5 +66,6 @@ export {
 	hideNewTaskMenu,
 	addNewTaskToday,
 	addNewTaskTomorrow,
+	addNewTaskCustom,
 	pickADate
 }

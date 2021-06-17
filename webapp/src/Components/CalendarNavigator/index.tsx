@@ -15,7 +15,9 @@ interface IProps {
 	isHome: boolean;
 	isCalendar: boolean;
 	calendarDate: Date;
+
 	setDate: GenericOnClickEvent;
+	showGoToMonthModal: () => void;
 }
 export default class CalendarNavigator extends React.Component<IProps> {
 	dayDiff = () =>
@@ -76,7 +78,7 @@ export default class CalendarNavigator extends React.Component<IProps> {
 	longPressTimeout = 0;
 	handleTouchStart(_: React.TouchEvent) {
 		this.longPressTimeout = window.setTimeout(() => {
-			alert("Long press!");
+			this.props.showGoToMonthModal();
 		}, 500);
 	}
 
@@ -114,9 +116,9 @@ export default class CalendarNavigator extends React.Component<IProps> {
 			1
 		);
 
-		const lastMonthStr = this.getMonthStr(prevMonth);
-		const thisMonthStr = this.getThisMonthStr();
-		const nextMonthStr = this.getMonthStr(nextMonth);
+		const lastMonthStr = this.getMonthStr(prevMonth),
+		 thisMonthStr = this.getThisMonthStr(),
+		 nextMonthStr = this.getMonthStr(nextMonth);
 
 		return (
 			<div className="calendar-nav-container on-calendar">
@@ -129,8 +131,6 @@ export default class CalendarNavigator extends React.Component<IProps> {
 				</div>
 				<div
 					className="active"
-					// onMouseDown={this.handleMouseDown.bind(this)}
-					// onMouseUp={this.handleMouseUp.bind(this)}
 					onTouchStart={this.handleTouchStart.bind(this)}
 					onTouchEnd={this.handleTouchEnd.bind(this)}
 					>

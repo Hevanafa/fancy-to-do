@@ -1,7 +1,7 @@
 import React from "react";
 import { GenericOnClickEvent, getImgSrc } from "../../modules/generics";
 
-import "./index.scss";
+import "../../styles/modals.scss";
 
 interface IProps {
 	taskEditorTaskName: string;

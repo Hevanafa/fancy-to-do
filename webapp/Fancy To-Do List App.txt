@@ -42,20 +42,25 @@ Today was focused on the task creation & editing logic.
 - Refactor DOM event handler names (DONE, 16-06-2021)
 - About Screen
 	- Touching the name opens the author's website (DONE, with social media links)
+	- Add PayPal donation link
+- Donation link to PayPal
+
+
+17-06-2021
+- Warning message when pressing the plus button if not either in home or in calendar views (DONE)
 
 
 Upcoming:
 - Review general localisations to use
+- Optimise function binds
 - Background image "List" at home
 
 - Calendar Screen
 	- Pressing the plus button immediately opens Task Editor with the selected date
 	- Go to specific month & year modal
 	- Styling the Go To month & year modal
-- About Screen
+- About Screen (Optional)
 	- Add: Created with ♥ by Hevanafa using Apache Cordova + React.js + TypeScript + SCSS
-	- Add PayPal donation link
-- Donation link to PayPal
 
 
 Dream Features:

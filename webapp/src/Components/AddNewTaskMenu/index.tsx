@@ -10,6 +10,8 @@ interface IState {
 interface IProps {
 	addNewTaskToday: GenericOnClickEvent;
 	addNewTaskTomorrow: GenericOnClickEvent;
+	addNewTaskCustom: GenericOnClickEvent;
+	
 	hideNewTaskMenu: GenericOnClickEvent;
 }
 export default class AddNewTaskMenu extends React.Component<IProps, IState> {
@@ -41,7 +43,8 @@ export default class AddNewTaskMenu extends React.Component<IProps, IState> {
 	render() {
 		const {
 			addNewTaskToday,
-			addNewTaskTomorrow
+			addNewTaskTomorrow,
+			addNewTaskCustom
 		} = this.props;
 
 		return (
@@ -71,7 +74,8 @@ export default class AddNewTaskMenu extends React.Component<IProps, IState> {
 						</div>
 					</div>
 
-					<div className="menu-item">
+					<div className="menu-item"
+						onClick={addNewTaskCustom}>
 						<div className="grey"></div>
 						<div>
 							Pick a date
